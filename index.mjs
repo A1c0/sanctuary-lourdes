@@ -11,7 +11,7 @@ export const create = ({checkTypes}) => {
   });
 
   // def :: String -> StrMap (Array TypeClass) -> Array Type -> Function -> Function
-  export const def = $.create ({
+  const def = $.create ({
     checkTypes: checkTypes,
     env: sanctuary.env,
   });
