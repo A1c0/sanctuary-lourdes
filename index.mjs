@@ -1,7 +1,21 @@
 import {parallel, reject, resolve} from 'fluture';
-import {FutureType} from 'fluture-sanctuary-types';
+import {FutureType, env as flutureEnv} from 'fluture-sanctuary-types';
+import sanctuary from 'sanctuary';
+import $ from 'sanctuary-def';
+import Identity from 'sanctuary-identity';
 
-const create = ({$, S, def}) => {
+const create = ({checkTypes}) => {
+  const S = sanctuary.create ({
+    checkTypes: checkTypes,
+    env: sanctuary.env.concat (flutureEnv),
+  });
+
+  // def :: String -> StrMap (Array TypeClass) -> Array Type -> Function -> Function
+  export const def = $.create ({
+    checkTypes: checkTypes,
+    env: sanctuary.env,
+  });
+
   const a = $.TypeVariable ('a');
   const b = $.TypeVariable ('b');
 
@@ -132,6 +146,16 @@ const create = ({$, S, def}) => {
                    ([$.Array ($.Pair ($.Predicate (a)) ($.Fn (a) (b))), a, $.Either (a) (b)])
                    (_cond);
 
+  // lens :: (s -> a) -> (a -> s -> s) -> Lens s a
+  const lens = getter => setter => f => s =>
+    S.map (v => setter (v) (s)) (f (getter (s)));
+
+  // view :: Lens s a -> s -> a
+  const view = l => x => l (S.Left) (x).value;
+
+  // over :: Lens s a -> (a -> a) -> s -> s
+  const over = l => f => x => S.extract (l (y => Identity (f (y))) (x));
+
   return {
     toMaybe,
     nth,
@@ -143,5 +167,8 @@ const create = ({$, S, def}) => {
     maybeToFluture,
     firstGroupMatch,
     cond,
+    lens,
+    view,
+    over,
   };
 };

@@ -619,6 +619,14 @@ sanctuary-either@2.1.0:
     sanctuary-show "2.0.0"
     sanctuary-type-classes "12.1.0"
 
+sanctuary-identity@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/sanctuary-identity/-/sanctuary-identity-2.1.0.tgz#9aa7699556b36ebb03a2068902b19280cf44068c"
+  integrity sha512-wAJBdEn1Oyv+grB4ouGv0P2eFfW+sWLlMTRq8JBKkXxc4VFbrU6VZvr3LCuPY95MH6zbKXZ38+aKhjFyf//cHw==
+  dependencies:
+    sanctuary-show "2.0.0"
+    sanctuary-type-classes "12.1.0"
+
 sanctuary-maybe@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/sanctuary-maybe/-/sanctuary-maybe-2.1.0.tgz#3ae6e35b5c5c72cc75fe0626b67a74abc4e68d91"
