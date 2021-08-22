@@ -1,12 +1,12 @@
 {
-  "name": "lourdes-sanctuary",
-  "version": "0.0.1",
+  "name": "sanctuary-lourdes",
+  "version": "0.0.2",
   "main": "index.js",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
   "keywords": ["sanctuary", "utils", "extra"],
-  "homepage": "https://github.com/A1c0/lourdes-sanctuary",
-  "bugs": "https://github.com/A1c0/lourdes-sanctuary/issues",
+  "homepage": "https://github.com/A1c0/sanctuary-lourdes",
+  "bugs": "https://github.com/A1c0/sanctuary-lourdes/issues",
   "files": ["index.mjs"],
   "importSort": {
     ".mjs, .jsx, .ts, .tsx": {

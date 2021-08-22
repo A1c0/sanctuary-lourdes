@@ -1,10 +1,10 @@
 import {parallel, reject, resolve} from 'fluture';
-import {FutureType, env as flutureEnv} from 'fluture-sanctuary-types';
+import {env as flutureEnv, FutureType} from 'fluture-sanctuary-types';
 import sanctuary from 'sanctuary';
 import $ from 'sanctuary-def';
 import Identity from 'sanctuary-identity';
 
-const create = ({checkTypes}) => {
+export const create = ({checkTypes}) => {
   const S = sanctuary.create ({
     checkTypes: checkTypes,
     env: sanctuary.env.concat (flutureEnv),
