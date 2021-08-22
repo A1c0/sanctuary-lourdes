@@ -1,5 +1,5 @@
 import {parallel, reject, resolve} from 'fluture';
-import {env as flutureEnv, FutureType} from 'fluture-sanctuary-types';
+import {FutureType, env as flutureEnv} from 'fluture-sanctuary-types';
 import sanctuary from 'sanctuary';
 import $ from 'sanctuary-def';
 import Identity from 'sanctuary-identity';

@@ -568,10 +568,10 @@ prettier-plugin-import-sort@^0.0.7:
     import-sort-parser-babylon "^6.0.0"
     import-sort-parser-typescript "^6.0.0"
 
-prettier-sanctuary@^0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/prettier-sanctuary/-/prettier-sanctuary-0.5.4.tgz#f784afd8f1eb5deaf223d61ebc7255729228e605"
-  integrity sha512-fpwBdXHlMbkRpouaxnV7KnwsHGEwQDhT/b06REijMN9ObM8SIl+g0ukgvHwgBi/gAOcl8kOc6xGqkvcECmvrhg==
+prettier-sanctuary@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/prettier-sanctuary/-/prettier-sanctuary-0.6.0.tgz#0ff4504d9dac916d70a8309556a45c42240211b0"
+  integrity sha512-B2MiKWJ/w17dXyjsI0dyxn0iQZT5ENb3hWc1lp3i+YO0SCFhr6/hra6bSi+WcUPYouzXGDwFZlmAbxfp/QoSWA==
 
 prettier@^2.3.2:
   version "2.3.2"

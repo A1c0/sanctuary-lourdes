@@ -4,10 +4,16 @@
   "main": "index.js",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
-  "keywords": ["sanctuary", "utils", "extra"],
+  "keywords": [
+    "sanctuary",
+    "utils",
+    "extra"
+  ],
   "homepage": "https://github.com/A1c0/sanctuary-lourdes",
   "bugs": "https://github.com/A1c0/sanctuary-lourdes/issues",
-  "files": ["index.mjs"],
+  "files": [
+    "index.mjs"
+  ],
   "importSort": {
     ".mjs, .jsx, .ts, .tsx": {
       "style": "module"
@@ -24,6 +30,6 @@
     "import-sort-style-module": "^6.0.0",
     "prettier": "^2.3.2",
     "prettier-plugin-import-sort": "^0.0.7",
-    "prettier-sanctuary": "^0.5.4"
+    "prettier-sanctuary": "^0.6.0"
   }
 }
