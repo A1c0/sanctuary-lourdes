@@ -1,7 +1,7 @@
 {
   "name": "sanctuary-lourdes",
   "version": "0.0.2",
-  "main": "index.js",
+  "main": "index.mjs",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
   "keywords": [
