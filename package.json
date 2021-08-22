@@ -4,6 +4,10 @@
   "main": "index.js",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
+  "keywords": ["sanctuary", "utils", "extra"],
+  "homepage": "https://github.com/A1c0/lourdes-sanctuary",
+  "bugs": "https://github.com/A1c0/lourdes-sanctuary/issues",
+  "files": ["index.mjs"],
   "importSort": {
     ".mjs, .jsx, .ts, .tsx": {
       "style": "module"
