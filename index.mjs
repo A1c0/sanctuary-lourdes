@@ -23,12 +23,12 @@ export const create = ({checkTypes}) => {
   //
   // Wrapping value in Maybe depending on predicate
   //
-  // > toMaybe(x => !!x)(null)
+  // > toMaybe (x => !!x) (null)
   // S.Nothing
-  // > toMaybe(x => !!x)(undefined)
+  // > toMaybe (x => !!x) (undefined)
   // S.Nothing
-  // > toMaybe(x => !!x)(1)
-  // S.Just(1)
+  // > toMaybe (x => !!x) (1)
+  // S.Just (1)
   const _toMaybe = predicate => S.ifElse (predicate)
                                          (S.Just)
                                          (S.K (S.Nothing));
@@ -41,11 +41,11 @@ export const create = ({checkTypes}) => {
   //
   // Get the N th elements of array
   //
-  // > nth(0)([])
+  // > nth (0) ([])
   // S.Nothing
-  // > nth(1)([1, 2, 3])
-  // S.Just(2)
-  // > nth(7)([1, 2, 3])
+  // > nth (1) ([1, 2, 3])
+  // S.Just (2)
+  // > nth (7) ([1, 2, 3])
   // S.Nothing
   const _nth = index => array =>
     index < array.length ? S.Just (array[index]) : S.Nothing;
@@ -73,6 +73,13 @@ export const create = ({checkTypes}) => {
     ]) (array);
 
   // splitEach :: PositiveInteger -> Array a -> Array Array a
+  //
+  // Split an array on sub-array of size N
+  //
+  // > splitEach (3) ([1, 2, 3, 4, 5, 6, 7, 8, 9])
+  // [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  // > splitEach (2) ([1, 2, 3, 4, 5, 6, 7])
+  // [[1, 2], [3, 4], [5, 6], [7]]
   const _splitEach = n => array =>
     S.pipe ([
       _sizeDivideBy (n),
