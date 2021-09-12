@@ -10,7 +10,6 @@ export const create = ({checkTypes}) => {
     env: sanctuary.env.concat (flutureEnv),
   });
 
-  // def :: String -> StrMap (Array TypeClass) -> Array Type -> Function -> Function
   const def = $.create ({
     checkTypes: checkTypes,
     env: sanctuary.env,
@@ -25,8 +24,10 @@ export const create = ({checkTypes}) => {
   //
   // > toMaybe (x => !!x) (null)
   // S.Nothing
+  //
   // > toMaybe (x => !!x) (undefined)
   // S.Nothing
+  //
   // > toMaybe (x => !!x) (1)
   // S.Just (1)
   const _toMaybe = predicate => S.ifElse (predicate)
@@ -43,8 +44,10 @@ export const create = ({checkTypes}) => {
   //
   // > nth (0) ([])
   // S.Nothing
+  //
   // > nth (1) ([1, 2, 3])
   // S.Just (2)
+  //
   // > nth (7) ([1, 2, 3])
   // S.Nothing
   const _nth = index => array =>
@@ -78,6 +81,7 @@ export const create = ({checkTypes}) => {
   //
   // > splitEach (3) ([1, 2, 3, 4, 5, 6, 7, 8, 9])
   // [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+  //
   // > splitEach (2) ([1, 2, 3, 4, 5, 6, 7])
   // [[1, 2], [3, 4], [5, 6], [7]]
   const _splitEach = n => array =>
@@ -125,6 +129,17 @@ export const create = ({checkTypes}) => {
                              (_maybeToFluture);
 
   // firstGroupMatch :: Regex -> String -> Maybe String
+  //
+  // Get the first match in a string
+  //
+  // > firstGroupMatch (/hello ([a-z]*)/) ('hello john!')
+  // S.Just('john')
+  //
+  // > firstGroupMatch (/hello ([a-z]*)/) ('hello bob!')
+  // S.Just('bob')
+  //
+  // > firstGroupMatch (/hello ([a-z]*)/) ('hi john!')
+  // S.Nothing
   const _firstGroupMatch = regex => string =>
     S.pipe ([
       S.match (regex),
@@ -137,7 +152,28 @@ export const create = ({checkTypes}) => {
                               ([$.RegExp, $.String, $.Maybe ($.String)])
                               (_firstGroupMatch);
 
-  // cond :: Array Pair (a -> Boolean) (a -> b) -> a ->  Either a b
+  // cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b
+  //
+  // Apply transformer when predicate return true anc return a Right value
+  // If any predicate return `true`, it will return initial value in Left Value
+  //
+  // > cond ([
+  // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
+  // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
+  // . ]) ('hello')
+  // S.Right ('HELLO')
+  //
+  // > cond ([
+  // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
+  // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
+  // . ]) ('HELLO!')
+  // S.Right ('hello!')
+  //
+  // > cond ([
+  // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
+  // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
+  // . ]) ('123!')
+  // S.Left ('123!')
   const _cond = pairs => value => {
     for (const pair of pairs) {
       const predicate = S.fst (pair);

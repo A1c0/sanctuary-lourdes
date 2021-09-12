@@ -1,6 +1,6 @@
 {
   "name": "sanctuary-lourdes",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "main": "index.mjs",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
@@ -15,7 +15,8 @@
     "index.mjs"
   ],
   "scripts": {
-    "test": "./doctest.sh"
+    "test": "./doctest.sh",
+    "sync-doc": "node .script/sync-doc.mjs"
   },
   "importSort": {
     ".mjs, .jsx, .ts, .tsx": {
@@ -33,7 +34,7 @@
     "doctest": "^0.18.1",
     "husky": "^7.0.2",
     "import-sort-style-module": "^6.0.0",
-    "prettier": "^2.3.2",
+    "prettier": "^2.4.0",
     "prettier-plugin-import-sort": "^0.0.7",
     "prettier-sanctuary": "^0.6.1"
   }
