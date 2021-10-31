@@ -1,5 +1,5 @@
 import {parallel, reject, resolve} from 'fluture';
-import {FutureType, env as flutureEnv} from 'fluture-sanctuary-types';
+import {env as flutureEnv, FutureType} from 'fluture-sanctuary-types';
 import sanctuary from 'sanctuary';
 import $ from 'sanctuary-def';
 import Identity from 'sanctuary-identity';
@@ -18,38 +18,22 @@ export const create = ({checkTypes}) => {
   const a = $.TypeVariable ('a');
   const b = $.TypeVariable ('b');
 
-  // toMaybe :: (a -> Boolean) -> a -> Maybe a
-  //
-  // Wrapping value in Maybe depending on predicate
-  //
-  // > toMaybe (x => !!x) (null)
-  // S.Nothing
-  //
-  // > toMaybe (x => !!x) (undefined)
-  // S.Nothing
-  //
-  // > toMaybe (x => !!x) (1)
-  // S.Just (1)
-  const _toMaybe = predicate => S.ifElse (predicate)
-                                         (S.Just)
-                                         (S.K (S.Nothing));
-  const toMaybe = def ('toMaybe')
-                      ({})
-                      ([$.Predicate (a), a, $.Maybe (a)])
-                      (_toMaybe);
+  // #####################
+  // #####   ARRAY   #####
+  // #####################
 
   // nth :: NonNegativeInteger -> Array a -> Maybe a
   //
   // Get the N th elements of array
   //
   // > nth (0) ([])
-  // S.Nothing
+  // Nothing
   //
   // > nth (1) ([1, 2, 3])
-  // S.Just (2)
+  // Just (2)
   //
   // > nth (7) ([1, 2, 3])
-  // S.Nothing
+  // Nothing
   const _nth = index => array =>
     index < array.length ? S.Just (array[index]) : S.Nothing;
   const nth = def ('nth')
@@ -57,11 +41,23 @@ export const create = ({checkTypes}) => {
                   ([$.NonNegativeInteger, $.Array (a), $.Maybe (a)])
                   (_nth);
 
-  // flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c
-  const flMap = n => fn => array => S.pipe ([
-    S.map (fn),
-    parallel (n)
-  ]) (array);
+  // indexOf :: a -> Array a -> Maybe PositiveNumber
+  //
+  // Get the first index of an array which corresponding to an item
+  //
+  // > indexOf ('red') (['red', 'green', 'blue'])
+  // Just (0)
+  //
+  // > indexOf ('yellow') (['red', 'green', 'blue'])
+  // Nothing
+  const _indexOf = elm => array => {
+    const index = array.indexOf (elm);
+    return index === -1 ? S.Nothing : S.Just (index);
+  };
+  const indexOf = def ('indexOf')
+                      ({})
+                      ([a, $.Array (a), $.Maybe ($.PositiveInteger)])
+                      (_indexOf);
 
   // _sliceArray :: Array a -> PositiveInteger -> PositiveInteger -> Array a
   const _sliceArray = array => n => index =>
@@ -95,51 +91,24 @@ export const create = ({checkTypes}) => {
                         ([$.PositiveInteger, $.Array (a), $.Array ($.Array (a))])
                         (_splitEach);
 
-  // toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a
-  const _toFluture = predicate => leftC => x =>
-    predicate (x) ? resolve (x) : reject (leftC (x));
-  const toFluture = def ('toFluture')
-                        ({})
-                        ([$.Predicate (a), $.Fn (a) (b), a, FutureType (b) (a)])
-                        (_toFluture);
-
-  // toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a
-  const _toEither = predicate => leftC => x =>
-    predicate (x) ? S.Right (x) : S.Left (leftC (x));
-  const toEither = def ('toEither')
-                       ({})
-                       ([$.Predicate (a), $.Fn (a) (b), a, $.Either (b) (a)])
-                       (_toEither);
-
-  // eitherToFluture :: Either a b -> Fluture a b
-  const eitherToFluture = def ('eitherToFluture')
-                              ({})
-                              ([$.Either (b) (a), FutureType (b) (a)])
-                              (S.either (reject) (resolve));
-
-  // maybeToFluture :: b -> Maybe a -> Fluture b a
-  const _maybeToFluture = left => x =>
-    S.pipe ([
-      S.maybeToEither (left),
-      eitherToFluture
-    ]) (x);
-  const maybeToFluture = def ('maybeToFluture')
-                             ({})
-                             ([b, $.Maybe (a), FutureType (b) (a)])
-                             (_maybeToFluture);
+  // #####################
+  // #####   REGEX   #####
+  // #####################
 
   // firstGroupMatch :: Regex -> String -> Maybe String
   //
   // Get the first match in a string
   //
-  // > firstGroupMatch (/hello ([a-z]*)/) ('hello john!')
-  // S.Just('john')
+  // > const firstGroupMatchExample = firstGroupMatch ('hello john!')
   //
-  // > firstGroupMatch (/hello ([a-z]*)/) ('hello bob!')
-  // S.Just('bob')
+  // > firstGroupMatchExample ('hello john!')
+  // Just ('john')
   //
-  // > firstGroupMatch (/hello ([a-z]*)/) ('hi john!')
-  // S.Nothing
+  // > firstGroupMatchExample ('hello bob!')
+  // Just ('bob')
+  //
+  // > firstGroupMatchExample ('hi john!')
+  // Nothing
   const _firstGroupMatch = regex => string =>
     S.pipe ([
       S.match (regex),
@@ -152,28 +121,25 @@ export const create = ({checkTypes}) => {
                               ([$.RegExp, $.String, $.Maybe ($.String)])
                               (_firstGroupMatch);
 
+  // #####################
+  // #####   LOGIC   #####
+  // #####################
+
   // cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b
   //
   // Apply transformer when predicate return true anc return a Right value
   // If any predicate return `true`, it will return initial value in Left Value
   //
-  // > cond ([
+  // > const condExemple = cond ([
   // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
   // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
   // . ]) ('hello')
-  // S.Right ('HELLO')
   //
-  // > cond ([
-  // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
-  // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
-  // . ]) ('HELLO!')
-  // S.Right ('hello!')
+  // > condExemple ('HELLO!')
+  // Right ('hello!')
   //
-  // > cond ([
-  // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
-  // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
-  // . ]) ('123!')
-  // S.Left ('123!')
+  // > condExemple ('123!')
+  // Left ('123!')
   const _cond = pairs => value => {
     for (const pair of pairs) {
       const predicate = S.fst (pair);
@@ -189,6 +155,10 @@ export const create = ({checkTypes}) => {
                    ([$.Array ($.Pair ($.Predicate (a)) ($.Fn (a) (b))), a, $.Either (a) (b)])
                    (_cond);
 
+  // #####################
+  // #####   LENS   #####
+  // #####################
+
   // lens :: (s -> a) -> (a -> s -> s) -> Lens s a
   const lens = getter => setter => f => s =>
     S.map (v => setter (v) (s)) (f (getter (s)));
@@ -199,8 +169,124 @@ export const create = ({checkTypes}) => {
   // over :: Lens s a -> (a -> a) -> s -> s
   const over = l => f => x => S.extract (l (y => Identity (f (y))) (x));
 
+  // #####################
+  // #####   MAYBE   #####
+  // #####################
+
+  // toMaybe :: (a -> Boolean) -> a -> Maybe a
+  //
+  // Wrapping value in Maybe depending on predicate
+  //
+  // > toMaybe (x => !!x) (null)
+  // Nothing
+  //
+  // > toMaybe (x => !!x) (undefined)
+  // Nothing
+  //
+  // > toMaybe (x => !!x) (1)
+  // Just (1)
+  const _toMaybe = predicate => S.ifElse (predicate)
+                                         (S.Just)
+                                         (S.K (S.Nothing));
+  const toMaybe = def ('toMaybe')
+                      ({})
+                      ([$.Predicate (a), a, $.Maybe (a)])
+                      (_toMaybe);
+
+  // ######################
+  // #####   EITHER   #####
+  // ######################
+
+  // toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a
+  //
+  // Convert to Either depending on predicate
+  //
+  // > const toEven = toEither (x => x % 2 === 0)
+  // .                         (x => `${x} is not a even number)
+  //
+  // > toEven (1)
+  // Left ('1 is not a even number')
+  //
+  // > toEven (2)
+  // Right (2)
+  const _toEither = predicate => leftC => x =>
+    predicate (x) ? S.Right (x) : S.Left (leftC (x));
+  const toEither = def ('toEither')
+                       ({})
+                       ([$.Predicate (a), $.Fn (a) (b), a, $.Either (b) (a)])
+                       (_toEither);
+
+  // #######################
+  // #####   FLUTURE   #####
+  // #######################
+
+  // flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c
+  const flMap = n => fn => array => S.pipe ([
+    S.map (fn),
+    parallel (n)
+  ]) (array);
+
+  // toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a
+  //
+  // Convert to a Fluture depending on predicate
+  //
+  // > const toOdd = toFluture (x => x % 2 !== 0)
+  // .                         (x => `${x} is not a even number)
+  //
+  // > fork (log ('rejection')) (log ('resolution')) (toOdd (1))
+  // [rejection]: 1 is not a even number
+  //
+  // > fork (log ('rejection')) (log ('resolution')) (toOdd (1))
+  // [resolution]: 1 is not a even number
+  const _toFluture = predicate => leftC => x =>
+    predicate (x) ? resolve (x) : reject (leftC (x));
+  const toFluture = def ('toFluture')
+                        ({})
+                        ([$.Predicate (a), $.Fn (a) (b), a, FutureType (b) (a)])
+                        (_toFluture);
+
+  // maybeToFluture :: b -> Maybe a -> Fluture b a
+  //
+  // Convert a Maybe to a Fluture
+  //
+  // > const f1 = maybeToFluture ("not a number") (S.Just (1))
+  // > const f2 = maybeToFluture ("not a number") (S.Nothing)
+  //
+  // > fork (log ('rejection')) (log ('resolution')) (f1)
+  // [resolution]: 1
+  //
+  // > fork (log ('rejection')) (log ('resolution')) (f2)
+  // [rejection]: not a number
+  const _maybeToFluture = left => x =>
+    S.pipe ([
+      S.maybeToEither (left),
+      eitherToFluture
+    ]) (x);
+  const maybeToFluture = def ('maybeToFluture')
+                             ({})
+                             ([b, $.Maybe (a), FutureType (b) (a)])
+                             (_maybeToFluture);
+
+  // eitherToFluture :: Either a b -> Fluture a b
+  //
+  // Convert a Either to a Fluture
+  //
+  // > const f1 = eitherToFluture (S.Right (1))
+  // > const f2 = eitherToFluture (S.Left ("error"))
+  //
+  // > fork (log ('rejection')) (log ('resolution')) (f1)
+  // [resolution]: 1
+  //
+  // > fork (log ('rejection')) (log ('resolution')) (f2)
+  // [rejection]: error
+  const eitherToFluture = def ('eitherToFluture')
+                              ({})
+                              ([$.Either (b) (a), FutureType (b) (a)])
+                              (S.either (reject) (resolve));
+
   return {
     toMaybe,
+    indexOf,
     nth,
     flMap,
     splitEach,

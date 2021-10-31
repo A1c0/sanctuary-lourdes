@@ -2,3 +2,4 @@ sandbox
 .idea
 node_modules
 *.log
+/test/
