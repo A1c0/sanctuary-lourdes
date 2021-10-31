@@ -99,13 +99,16 @@ export const create = ({checkTypes}) => {
   //
   // Get the first match in a string
   //
-  // > const firstGroupMatchExample = firstGroupMatch ('hello john!')
+  // > const firstGroupMatchExample = firstGroupMatch (/hello ([a-z]*)!/);
   //
   // > firstGroupMatchExample ('hello john!')
   // Just ('john')
   //
   // > firstGroupMatchExample ('hello bob!')
   // Just ('bob')
+  //
+  // > firstGroupMatchExample ('hello 123!')
+  // Nothing
   //
   // > firstGroupMatchExample ('hi john!')
   // Nothing
@@ -202,7 +205,7 @@ export const create = ({checkTypes}) => {
   // Convert to Either depending on predicate
   //
   // > const toEven = toEither (x => x % 2 === 0)
-  // .                         (x => `${x} is not a even number)
+  // .                         (x => `${x} is not a even number`)
   //
   // > toEven (1)
   // Left ('1 is not a even number')

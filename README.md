@@ -31,6 +31,8 @@ const Sl = create({checkTypes: CHECK_TYPES_SANCTUARY});
 
 ## API
 
+### Array
+
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L25">`nth :: NonNegativeInteger -> Array a -> Maybe a`</a>
 
 Get the N th elements of array
@@ -68,17 +70,16 @@ Split an array on sub-array of size N
 
 > splitEach (2) ([1, 2, 3, 4, 5, 6, 7])
 [[1, 2], [3, 4], [5, 6], [7]]
-#####################
-#####   REGEX   #####
-#####################
 ```
+
+### Regex
 
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L98">`firstGroupMatch :: Regex -> String -> Maybe String`</a>
 
 Get the first match in a string
 
 ```js
-> const firstGroupMatchExample = firstGroupMatch ('hello john!')
+> const firstGroupMatchExample = firstGroupMatch (/hello ([a-z]*)!/);
 
 > firstGroupMatchExample ('hello john!')
 Just ('john')
@@ -86,14 +87,16 @@ Just ('john')
 > firstGroupMatchExample ('hello bob!')
 Just ('bob')
 
+> firstGroupMatchExample ('hello 123!')
+Nothing
+
 > firstGroupMatchExample ('hi john!')
 Nothing
-#####################
-#####   LOGIC   #####
-#####################
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L128">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
+### Logic
+
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L131">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
 
 Apply transformer when predicate return true anc return a Right value
 If any predicate return `true`, it will return initial value in Left Value
@@ -109,12 +112,13 @@ Right ('hello!')
 
 > condExemple ('123!')
 Left ('123!')
-#####################
-#####   LENS   #####
-#####################
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L176">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
+### Lens
+
+### Maybe
+
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L179">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
 
 Wrapping value in Maybe depending on predicate
 
@@ -127,30 +131,28 @@ Nothing
 
 > toMaybe (x => !!x) (1)
 Just (1)
-######################
-#####   EITHER   #####
-######################
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L200">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
+### Either
+
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L203">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
 
 Convert to Either depending on predicate
 
 ```js
 > const toEven = toEither (x => x % 2 === 0)
-.                         (x => `${x} is not a even number)
+.                         (x => `${x} is not a even number`)
 
 > toEven (1)
 Left ('1 is not a even number')
 
 > toEven (2)
 Right (2)
-#######################
-#####   FLUTURE   #####
-#######################
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L229">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
+### Fluture
+
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L232">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
 
 Convert to a Fluture depending on predicate
 
@@ -165,7 +167,7 @@ Convert to a Fluture depending on predicate
 [resolution]: 1 is not a even number
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L248">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L251">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
 
 Convert a Maybe to a Fluture
 
@@ -180,7 +182,7 @@ Convert a Maybe to a Fluture
 [rejection]: not a number
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L270">`eitherToFluture :: Either a b -> Fluture a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L273">`eitherToFluture :: Either a b -> Fluture a b`</a>
 
 Convert a Either to a Fluture
 

@@ -1,4 +1,25 @@
-import {createGroupOnDef, readFile, replace, S, Sl} from './utils.mjs';
+import {readFile, replace, S, Sl} from './utils.mjs';
+
+const appendOnDef = acc => value => {
+  const last = S.last (acc);
+  if (S.isNothing (last)) {
+    return S.append ([value]) (acc);
+  }
+  if (S.test (/::/) (value)) {
+    return S.append ([value]) (acc);
+  }
+  if (S.test (S.regex ('') ('#'.repeat (6))) (value)) {
+    const lastLine = S.fromMaybe ('') (S.chain (S.last) (last));
+    if (S.complement (S.test (/##/)) (lastLine)) {
+      return S.append ([value]) (acc);
+    }
+  }
+  const lastValue = S.fromMaybe ([]) (last);
+  const appFOrUpdate = S.fromMaybe ([]) (S.dropLast (1) (acc));
+  return S.append (S.append (value) (lastValue)) (appFOrUpdate);
+};
+
+export const createGroupOnDef = S.reduce (appendOnDef) ([]);
 
 const bundleDef = lines => defLines =>
   S.pipe ([
@@ -26,6 +47,7 @@ const bundleDef = lines => defLines =>
       ]),
     }),
     S.unchecked.sequence (S.Maybe),
+    S.maybeToEither (defLines),
   ]) (defLines);
 
 const bundleDefs = lines =>
@@ -33,7 +55,6 @@ const bundleDefs = lines =>
     S.filter (S.test (/ *\/\//)),
     createGroupOnDef,
     S.map (bundleDef (lines)),
-    S.justs,
   ]) (lines);
 
 export const getApiDoc = S.pipe ([

@@ -1,7 +1,5 @@
 import path from 'path';
-
-import {debug} from './debug.mjs';
-import {APP_DIR, readFile, S, Sl, writeFile} from './utils.mjs';
+import {APP_DIR, readFile, replace, S, Sl, writeFile} from './utils.mjs';
 import {getApiDoc} from './common.mjs';
 
 const buildUrl = index =>
@@ -18,14 +16,28 @@ const defToString = ({index, title, meta, exemples}) =>
     buildExemples (exemples),
   ].join ('\n\n');
 
-const toTextFormat = S.pipe ([
-  S.map (defToString),
-  S.joinWith ('\n\n')
+const toCapitalize = s => `${s[0].toUpperCase()}${s.slice(1).toLowerCase()}`;
+
+const toTypeTitle = S.pipe ([
+  toCapitalize,
+  s => `### ${s}`
 ]);
+
+const bob = x =>
+  S.pipe ([
+    S.map (replace (/ *\/\/ */) ('')),
+    S.joinWith ('\n'),
+    Sl.firstGroupMatch (/#*\n#{5} {3}(.*) {3}#{5}\n#*/m),
+    S.map (toTypeTitle),
+    S.maybeToEither (x),
+  ]) (x);
 
 const apiString = S.pipe ([
   getApiDoc,
-  toTextFormat
+  S.map (S.map (defToString)),
+  S.map (S.either (bob) (S.Right)),
+  S.rights,
+  S.joinWith ('\n\n'),
 ]) (path.resolve (APP_DIR, 'index.mjs'));
 
 const readmePath = path.resolve (APP_DIR, 'README.md');
@@ -39,7 +51,6 @@ S.pipe ([
   S.append (''),
   S.append (apiString),
   S.append (''),
-  debug ('toto'),
   S.unlines,
   writeFile (readmePath),
 ]) (readmePath);

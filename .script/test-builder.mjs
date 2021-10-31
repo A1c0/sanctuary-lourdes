@@ -1,13 +1,10 @@
 import path from 'path';
-
+import {APP_DIR, S} from './utils.mjs';
+import {getApiDoc} from './common.mjs';
 import {debug} from './debug.mjs';
-import {APP_DIR, createGroupOnDef, readFile, S} from './utils.mjs';
 
 const testMap = S.pipe ([
-  readFile,
-  S.lines,
-  debug ('lines'),
-  S.filter (S.test (/ *\/\//)),
-  createGroupOnDef,
-  debug ('groups'),
+  getApiDoc,
+  S.rights,
+  debug ('map')
 ]) (path.resolve (APP_DIR, 'index.mjs'));

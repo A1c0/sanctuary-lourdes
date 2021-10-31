@@ -21,21 +21,6 @@ export const APP_DIR = path.dirname (__dirname);
 
 export const readFile = x => fs.readFileSync (x, 'utf8');
 
-const appendOnDef = acc => value => {
-  const last = S.last (acc);
-  if (S.isNothing (last)) {
-    return S.append ([value]) (acc);
-  }
-  if (S.test (/::/) (value)) {
-    return S.append ([value]) (acc);
-  }
-  const lastValue = S.fromMaybe ([]) (last);
-  const appFOrUpdate = S.fromMaybe ([]) (S.dropLast (1) (acc));
-  return S.append (S.append (value) (lastValue)) (appFOrUpdate);
-};
-
-export const createGroupOnDef = S.reduce (appendOnDef) ([]);
-
 export const writeFile = S.curry2 (fs.writeFileSync);
 
 export const replace = a => b => s => s.replace (a, b);
