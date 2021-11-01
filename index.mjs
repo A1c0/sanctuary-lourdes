@@ -234,7 +234,7 @@ export const create = ({checkTypes}) => {
   // Convert to a Fluture depending on predicate
   //
   // > const toOdd = toFluture (x => x % 2 !== 0)
-  // .                         (x => `${x} is not a even number)
+  // .                         (x => `${x} is not a even number`)
   //
   // > fork (log ('rejection')) (log ('resolution')) (toOdd (1))
   // [rejection]: 1 is not a even number
