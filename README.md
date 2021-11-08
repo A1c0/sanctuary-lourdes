@@ -114,7 +114,10 @@ If any predicate return `true`, it will return initial value in Left Value
 > const condExemple = cond ([
 .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
 .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
-. ]) ('hello')
+. ])
+
+> condExemple ('hello')
+Right ('HELLO')
 
 > condExemple ('HELLO!')
 Right ('hello!')
@@ -127,7 +130,7 @@ Left ('123!')
 
 ### Maybe
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L179">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L182">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
 
 Wrapping value in Maybe depending on predicate
 
@@ -144,7 +147,7 @@ Just (1)
 
 ### Either
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L203">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L206">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
 
 Convert to Either depending on predicate
 
@@ -161,7 +164,7 @@ Right (2)
 
 ### Fluture
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L232">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L235">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
 
 Convert to a Fluture depending on predicate
 
@@ -176,7 +179,7 @@ Convert to a Fluture depending on predicate
 [resolution]: 1 is not a even number
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L251">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L254">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
 
 Convert a Maybe to a Fluture
 
@@ -191,7 +194,7 @@ Convert a Maybe to a Fluture
 [rejection]: not a number
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L273">`eitherToFluture :: Either a b -> Fluture a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L276">`eitherToFluture :: Either a b -> Fluture a b`</a>
 
 Convert a Either to a Fluture
 

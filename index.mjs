@@ -136,7 +136,10 @@ export const create = ({checkTypes}) => {
   // > const condExemple = cond ([
   // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
   // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
-  // . ]) ('hello')
+  // . ])
+  //
+  // > condExemple ('hello')
+  // Right ('HELLO')
   //
   // > condExemple ('HELLO!')
   // Right ('hello!')
