@@ -91,10 +91,10 @@ Get the first match in a string
 > const firstGroupMatchExample = firstGroupMatch (/hello ([a-z]*)!/);
 
 > firstGroupMatchExample ('hello john!')
-Just ('john')
+Just ("john")
 
 > firstGroupMatchExample ('hello bob!')
-Just ('bob')
+Just ("bob")
 
 > firstGroupMatchExample ('hello 123!')
 Nothing
@@ -117,13 +117,13 @@ If any predicate return `true`, it will return initial value in Left Value
 . ])
 
 > condExemple ('hello')
-Right ('HELLO')
+Right ("HELLO")
 
 > condExemple ('HELLO!')
-Right ('hello!')
+Right ("hello!")
 
 > condExemple ('123!')
-Left ('123!')
+Left ("123!")
 ```
 
 ### Lens
@@ -156,7 +156,7 @@ Convert to Either depending on predicate
 .                         (x => `${x} is not a even number`)
 
 > toEven (1)
-Left ('1 is not a even number')
+Left ("1 is not a even number")
 
 > toEven (2)
 Right (2)

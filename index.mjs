@@ -102,10 +102,10 @@ export const create = ({checkTypes}) => {
   // > const firstGroupMatchExample = firstGroupMatch (/hello ([a-z]*)!/);
   //
   // > firstGroupMatchExample ('hello john!')
-  // Just ('john')
+  // Just ("john")
   //
   // > firstGroupMatchExample ('hello bob!')
-  // Just ('bob')
+  // Just ("bob")
   //
   // > firstGroupMatchExample ('hello 123!')
   // Nothing
@@ -139,13 +139,13 @@ export const create = ({checkTypes}) => {
   // . ])
   //
   // > condExemple ('hello')
-  // Right ('HELLO')
+  // Right ("HELLO")
   //
   // > condExemple ('HELLO!')
-  // Right ('hello!')
+  // Right ("hello!")
   //
   // > condExemple ('123!')
-  // Left ('123!')
+  // Left ("123!")
   const _cond = pairs => value => {
     for (const pair of pairs) {
       const predicate = S.fst (pair);
@@ -211,7 +211,7 @@ export const create = ({checkTypes}) => {
   // .                         (x => `${x} is not a even number`)
   //
   // > toEven (1)
-  // Left ('1 is not a even number')
+  // Left ("1 is not a even number")
   //
   // > toEven (2)
   // Right (2)
