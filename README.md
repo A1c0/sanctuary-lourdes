@@ -31,6 +31,15 @@ const Sl = create({checkTypes: CHECK_TYPES_SANCTUARY});
 
 ## API
 
+- [Array](#Array)
+- [Regex](#Regex)
+- [Logic](#Logic)
+- [Lens](#Lens)
+- [Maybe](#Maybe)
+- [Either](#Either)
+- [Fluture](#Fluture)
+
+
 ### Array
 
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L25">`nth :: NonNegativeInteger -> Array a -> Maybe a`</a>
