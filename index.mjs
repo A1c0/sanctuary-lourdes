@@ -124,6 +124,19 @@ export const create = ({checkTypes}) => {
                               ([$.RegExp, $.String, $.Maybe ($.String)])
                               (_firstGroupMatch);
 
+  // replace :: Regex -> String -> String -> String
+  //
+  // Replace a substring with a RegExp
+  //
+  // > replace (/bob/) ('john') ('hello bob')
+  // "hello john"
+  const _replace = regExp => strReplace => str =>
+    str.replace (regExp, strReplace);
+  const replace = def ('replace')
+                      ({})
+                      ([$.RegExp, $.String, $.String, $.String])
+                      (_replace);
+
   // #####################
   // #####   LOGIC   #####
   // #####################
@@ -301,6 +314,7 @@ export const create = ({checkTypes}) => {
     eitherToFluture,
     maybeToFluture,
     firstGroupMatch,
+    replace,
     cond,
     lens,
     view,

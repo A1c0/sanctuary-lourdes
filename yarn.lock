@@ -578,10 +578,9 @@ prettier-plugin-import-sort@^0.0.7:
     import-sort-parser-babylon "^6.0.0"
     import-sort-parser-typescript "^6.0.0"
 
-prettier-sanctuary@^0.9.4:
-  version "0.9.4"
-  resolved "https://registry.yarnpkg.com/prettier-sanctuary/-/prettier-sanctuary-0.9.4.tgz#a5047691d32af0b374908eb05c1624475099d367"
-  integrity sha512-dh/KZpgO9NpaoYyiHq5weu86xjHMiymQmlqL9BjMhrIarg+DGbuKvqNlT0ygjHAZiWhkwoqV3U7WMkXTdxL+Jg==
+"prettier-sanctuary@https://github.com/A1c0/prettier-sanctuary#override-config":
+  version "0.9.6"
+  resolved "https://github.com/A1c0/prettier-sanctuary#3915d9b6bbffa0dd7a3abbb615ce3bdfdc2ff049"
   dependencies:
     prettier "^2.4.1"
 

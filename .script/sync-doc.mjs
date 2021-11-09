@@ -65,7 +65,6 @@ S.pipe ([
   S.append (docSummary),
   S.append (''),
   S.append (apiString),
-  S.append (''),
   S.unlines,
   writeFile (readmePath),
 ]) (readmePath);

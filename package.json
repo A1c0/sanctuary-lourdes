@@ -16,7 +16,7 @@
   ],
   "scripts": {
     "test": "./doctest.sh",
-    "sync-doc": "node .script/sync-doc.mjs"
+    "sync-doc": "CHECK_TYPES_SANCTUAR=false node .script/sync-doc.mjs"
   },
   "importSort": {
     ".mjs, .jsx, .ts, .tsx": {
@@ -35,6 +35,6 @@
     "import-sort-style-module": "^6.0.0",
     "oletus": "^3.2.0",
     "prettier-plugin-import-sort": "^0.0.7",
-    "prettier-sanctuary": "^0.9.4"
+    "prettier-sanctuary": "https://github.com/A1c0/prettier-sanctuary#override-config"
   }
 }

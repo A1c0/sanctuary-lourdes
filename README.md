@@ -103,9 +103,18 @@ Nothing
 Nothing
 ```
 
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L127">`replace :: Regex -> String -> String -> String`</a>
+
+Replace a substring with a RegExp
+
+```js
+> replace (/bob/) ('john') ('hello bob')
+"hello john"
+```
+
 ### Logic
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L131">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L144">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
 
 Apply transformer when predicate return true anc return a Right value
 If any predicate return `true`, it will return initial value in Left Value
@@ -130,7 +139,7 @@ Left ("123!")
 
 ### Maybe
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L182">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L195">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
 
 Wrapping value in Maybe depending on predicate
 
@@ -147,7 +156,7 @@ Just (1)
 
 ### Either
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L206">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L219">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
 
 Convert to Either depending on predicate
 
@@ -164,7 +173,7 @@ Right (2)
 
 ### Fluture
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L235">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L248">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
 
 Convert to a Fluture depending on predicate
 
@@ -179,7 +188,7 @@ Convert to a Fluture depending on predicate
 [resolution]: 1 is not a even number
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L254">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L267">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
 
 Convert a Maybe to a Fluture
 
@@ -194,7 +203,7 @@ Convert a Maybe to a Fluture
 [rejection]: not a number
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L276">`eitherToFluture :: Either a b -> Fluture a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L289">`eitherToFluture :: Either a b -> Fluture a b`</a>
 
 Convert a Either to a Fluture
 
@@ -208,4 +217,3 @@ Convert a Either to a Fluture
 > fork (log ('rejection')) (log ('resolution')) (f2)
 [rejection]: error
 ```
-
