@@ -181,21 +181,32 @@ export const create = ({checkTypes}) => {
   // ####################
   //
   // Use [implementation created by David Chambers](https://gist.github.com/davidchambers/45aa0187a32fbac6912d4b3b4e8530c5)
-  // and add some too.
 
   // lens :: (s -> a) -> (a -> s -> s) -> Lens s a
-  const lens = getter => setter => f => s =>
+  exportFn.lens = getter => setter => f => s =>
     S.map (v => setter (v) (s)) (f (getter (s)));
 
   // view :: Lens s a -> s -> a
-  const view = l => x => l (S.Left) (x).value;
+  //
+  // Allow to get a value by a Lens
+  //
+  // > const email = lens (user => user.email) (email => user => ({...user, email}));
+  // > const user = {id: 1, email: 'dc@davidchambers.me'};
+  //
+  // > view (email) (user)
+  // dc@davidchambers.me
+  exportFn.view = l => x => l (S.Left) (x).value;
 
   // over :: Lens s a -> (a -> a) -> s -> s
-  const over = l => f => x => S.extract (l (y => Identity (f (y))) (x));
-
-  const lensProp = 1;
-  const lensPath = 2;
-  const lensIndex = 3;
+  //
+  // Allow to set a value by a Lens
+  //
+  // > const email = lens (user => user.email) (email => user => ({...user, email}));
+  // > const user = {id: 1, email: 'dc@davidchambers.me'};
+  //
+  // > over (email) (S.toUpper) (user)
+  // {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
+  exportFn.over = l => f => x => S.extract (l (y => Identity (f (y))) (x));
 
   // #####################
   // #####   MAYBE   #####

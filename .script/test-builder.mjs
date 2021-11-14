@@ -13,9 +13,11 @@ const lib = S.pipe ([
            (lines),
   S.fromMaybe ([]),
   S.reject (S.test (/^ *\/\/.*$/)),
-  S.map (Sl.replace (/^ {2}(.*)$/) ('$1')),
-  S.map (Sl.replace (/^exportFn\./) ('const ')),
-  S.map (Sl.replace (/exportFn\./) ('')),
+  S.map (S.pipe ([
+    Sl.replace (/^ {2}(.*)$/) ('$1'),
+    Sl.replace (/^exportFn\./) ('const '),
+    Sl.replace (/exportFn\./) (''),
+  ])),
   S.joinWith ('\n'),
   Sl.replace (/\n{3,}/g) ('\n\n'),
 ]) (path.resolve (APP_DIR, 'index.mjs'));
@@ -52,7 +54,7 @@ const buildFlutureTestInstruction = S.pipe ([
   }),
   S.sequence (S.Maybe),
   S.map (({current, expected}) =>
-    `t.deepEqual (showIfSanctuaryValue (await forkLog (${current})), parseExpected ('${expected}'));`),
+    `t.deepEqual (showIfSanctuaryValue (await forkLog (${current})), parseExpected (\`${expected}\`));`),
   S.fromMaybe ("throw new Error('Could not build test');"),
 ]);
 
@@ -71,7 +73,7 @@ const buildClassicTestInstruction = S.pipe ([
     ]),
   }),
   ({current, expected}) =>
-    `t.deepEqual (showIfSanctuaryValue (${current}), parseExpected ('${expected}'));`,
+    `t.deepEqual (showIfSanctuaryValue (${current}), parseExpected (\`${expected}\`));`,
 ]);
 
 //    buildTestInstruction :: Array String -> String

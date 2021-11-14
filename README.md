@@ -137,11 +137,35 @@ Left ("123!")
 
 ### Lens
 
-Use [implementation created by David Chambers](https://gist.github.com/davidchambers/45aa0187a32fbac6912d4b3b4e8530c5) and add some too.
+Use [implementation created by David Chambers](https://gist.github.com/davidchambers/45aa0187a32fbac6912d4b3b4e8530c5)
+
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L189">`view :: Lens s a -> s -> a`</a>
+
+Allow to get a value by a Lens
+
+```js
+> const email = lens (user => user.email) (email => user => ({...user, email}));
+> const user = {id: 1, email: 'dc@davidchambers.me'};
+
+> view (email) (user)
+dc@davidchambers.me
+```
+
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L200">`over :: Lens s a -> (a -> a) -> s -> s`</a>
+
+Allow to set a value by a Lens
+
+```js
+> const email = lens (user => user.email) (email => user => ({...user, email}));
+> const user = {id: 1, email: 'dc@davidchambers.me'};
+
+> over (email) (S.toUpper) (user)
+{id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
+```
 
 ### Maybe
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L204">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L215">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
 
 Wrapping value in Maybe depending on predicate
 
@@ -158,7 +182,7 @@ Just (1)
 
 ### Either
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L228">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L239">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
 
 Convert to Either depending on predicate
 
@@ -175,7 +199,7 @@ Right (2)
 
 ### Fluture
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L257">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L268">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
 
 Convert to a Fluture depending on predicate
 
@@ -190,7 +214,7 @@ Convert to a Fluture depending on predicate
 [resolution]: 1
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L276">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L287">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
 
 Convert a Maybe to a Fluture
 
@@ -205,7 +229,7 @@ Convert a Maybe to a Fluture
 [rejection]: "not a number"
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L298">`eitherToFluture :: Either a b -> Fluture a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L309">`eitherToFluture :: Either a b -> Fluture a b`</a>
 
 Convert a Either to a Fluture
 
