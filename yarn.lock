@@ -415,7 +415,7 @@ picocolors@^1.0.0:
 
 "prettier-sanctuary@https://github.com/A1c0/prettier-sanctuary#override-config":
   version "0.9.9"
-  resolved "https://github.com/A1c0/prettier-sanctuary#a244d7f28942bf16a4fb7279a08ca2ac5b5c114f"
+  resolved "https://github.com/A1c0/prettier-sanctuary#1584aad90ecec2afd8903d3f8c661c51f6d1c3f4"
   dependencies:
     prettier "^2.4.1"
 

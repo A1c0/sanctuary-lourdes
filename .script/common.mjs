@@ -1,4 +1,4 @@
-import {readFile, replace, S, Sl} from './utils.mjs';
+import {S, Sl, readFile, replace} from './utils.mjs';
 
 const appendOnDef = acc => value => {
   const last = S.last (acc);
@@ -30,7 +30,8 @@ const bundleDef = lines => defLines =>
       ]),
       title: S.pipe ([
         Sl.nth (0),
-        S.map (replace (/ *\/\/ */) (''))
+        S.map (replace (/ *\/\/ */) ('')),
+        S.chain (Sl.toMaybe (S.test (/[A-Za-z0-9]+ :: [A-Za-z0-9() ]+ (-> [A-Za-z0-9() ]+)*/))),
       ]),
       meta: S.pipe ([
         S.map (replace (/ *\/\/ */) ('')),

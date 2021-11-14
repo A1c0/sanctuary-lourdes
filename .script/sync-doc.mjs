@@ -1,19 +1,21 @@
 import path from 'path';
-import {APP_DIR, readFile, replace, S, Sl, writeFile} from './utils.mjs';
+
 import {getApiDoc} from './common.mjs';
+import {debug} from './debug.mjs';
+import {APP_DIR, S, Sl, readFile, replace, writeFile} from './utils.mjs';
 
 const buildUrl = index =>
   `https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L${S.add(1)(
     index
   )}`;
 
-const buildExemples = e => ['```js', e, '```'].join ('\n');
+const buildExamples = e => ['```js', e, '```'].join ('\n');
 
-const defToString = ({index, title, meta, exemples}) =>
+const defToString = ({index, title, meta, examples}) =>
   [
     `#### <a href="${buildUrl(index)}">\`${title}\`</a>`,
     meta,
-    buildExemples (exemples),
+    buildExamples (examples),
   ].join ('\n\n');
 
 const toCapitalize = s => `${s[0].toUpperCase()}${s.slice(1).toLowerCase()}`;
@@ -22,23 +24,54 @@ const toTypeTitle = s => `### ${s}`;
 
 const apiDoc = getApiDoc (path.resolve (APP_DIR, 'index.mjs'));
 
-const getDocTitle = S.pipe ([
+//    removeCommentMarkerAndJoin :: Array String -> String
+const removeCommentMarkerAndJoin = S.pipe ([
   S.map (replace (/ *\/\/ */) ('')),
   S.joinWith ('\n'),
-  Sl.firstGroupMatch (/#*\n#{5} {3}(.*) {3}#{5}\n#*/m),
+]);
+
+//    getDocTitle :: Array String -> Maybe String
+const getDocTitle = S.pipe ([
+  removeCommentMarkerAndJoin,
+  Sl.firstGroupMatch (/#*\n#{5} {3}([A-Za-z]+) {3}#{5}\n#*/),
   S.map (toCapitalize),
 ]);
 
-const bob = x =>
+//    getFormattedTitle :: Array String -> Maybe String
+const getFormattedTitle = S.pipe ([
+  getDocTitle,
+  S.map (toTypeTitle)
+]);
+
+//    getFormattedDescription :: Array String -> Maybe String
+const getFormattedDescription = S.pipe ([
+  debug ('a'),
+  removeCommentMarkerAndJoin,
+  debug ('b'),
+  Sl.firstGroupMatch (/#*\n#{5} {3}[A-Za-z]+ {3}#{5}\n#*\n\n(.*(\n.*)*)/),
+  debug ('c'),
+  S.map (Sl.replace (/\n/g) (' ')),
+  debug ('d'),
+]);
+
+//    getFormattedTitleAndDescription :: Array String -> Maybe String
+const getFormattedTitleAndDescription = S.pipe ([
+  S.flip ([getFormattedTitle, getFormattedDescription]),
+  S.justs,
+  Sl.toMaybe (array => array.length !== 0),
+  S.map (S.joinWith ('\n\n')),
+]);
+
+//    extractWantedDoc :: Array String -> Either Array String String
+const extractWantedDoc = x =>
   S.pipe ([
-    getDocTitle,
-    S.map (toTypeTitle),
+    getFormattedTitleAndDescription,
     S.maybeToEither (x)
   ]) (x);
 
 const toSummaryFormat = s => `- [${s}](#${s})`;
 
-// docSummary :: String
+//    docSummary :: String
 const docSummary = S.pipe ([
   S.map (S.either (getDocTitle) (S.K (S.Nothing))),
   S.justs,
@@ -46,9 +79,10 @@ const docSummary = S.pipe ([
   S.unlines,
 ]) (apiDoc);
 
+//    apiString :: String
 const apiString = S.pipe ([
   S.map (S.map (defToString)),
-  S.map (S.either (bob) (S.Right)),
+  S.map (S.either (extractWantedDoc) (S.Right)),
   S.rights,
   S.joinWith ('\n\n'),
 ]) (apiDoc);

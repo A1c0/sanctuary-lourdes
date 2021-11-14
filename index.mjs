@@ -174,9 +174,12 @@ export const create = ({checkTypes}) => {
                    ([$.Array ($.Pair ($.Predicate (a)) ($.Fn (a) (b))), a, $.Either (a) (b)])
                    (_cond);
 
-  // #####################
+  // ####################
   // #####   LENS   #####
-  // #####################
+  // ####################
+  //
+  // Use [implementation created by David Chambers](https://gist.github.com/davidchambers/45aa0187a32fbac6912d4b3b4e8530c5)
+  // and add some too.
 
   // lens :: (s -> a) -> (a -> s -> s) -> Lens s a
   const lens = getter => setter => f => s =>
@@ -187,6 +190,10 @@ export const create = ({checkTypes}) => {
 
   // over :: Lens s a -> (a -> a) -> s -> s
   const over = l => f => x => S.extract (l (y => Identity (f (y))) (x));
+
+  const lensProp = 1;
+  const lensPath = 2;
+  const lensIndex = 3;
 
   // #####################
   // #####   MAYBE   #####
@@ -250,10 +257,10 @@ export const create = ({checkTypes}) => {
   // Convert to a Fluture depending on predicate
   //
   // > const toOdd = toFluture (x => x % 2 !== 0)
-  // .                         (x => `${x} is not a even number`)
+  // .                         (x => `${x} is not a odd number`)
   //
   // > fork (log ('rejection')) (log ('resolution')) (toOdd (2))
-  // [rejection]: "2 is not a even number"
+  // [rejection]: "2 is not a odd number"
   //
   // > fork (log ('rejection')) (log ('resolution')) (toOdd (1))
   // [resolution]: 1
