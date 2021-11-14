@@ -45,13 +45,9 @@ const getFormattedTitle = S.pipe ([
 
 //    getFormattedDescription :: Array String -> Maybe String
 const getFormattedDescription = S.pipe ([
-  debug ('a'),
   removeCommentMarkerAndJoin,
-  debug ('b'),
   Sl.firstGroupMatch (/#*\n#{5} {3}[A-Za-z]+ {3}#{5}\n#*\n\n(.*(\n.*)*)/),
-  debug ('c'),
   S.map (Sl.replace (/\n/g) (' ')),
-  debug ('d'),
 ]);
 
 //    getFormattedTitleAndDescription :: Array String -> Maybe String

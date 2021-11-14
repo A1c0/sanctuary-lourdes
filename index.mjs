@@ -5,6 +5,8 @@ import $ from 'sanctuary-def';
 import Identity from 'sanctuary-identity';
 
 export const create = ({checkTypes}) => {
+  const exportFn = {};
+
   const S = sanctuary.create ({
     checkTypes: checkTypes,
     env: sanctuary.env.concat (flutureEnv),
@@ -36,10 +38,10 @@ export const create = ({checkTypes}) => {
   // Nothing
   const _nth = index => array =>
     index < array.length ? S.Just (array[index]) : S.Nothing;
-  const nth = def ('nth')
-                  ({})
-                  ([$.NonNegativeInteger, $.Array (a), $.Maybe (a)])
-                  (_nth);
+  exportFn.nth = def ('nth')
+                     ({})
+                     ([$.NonNegativeInteger, $.Array (a), $.Maybe (a)])
+                     (_nth);
 
   // indexOf :: a -> Array a -> Maybe NonNegativeInteger
   //
@@ -54,10 +56,10 @@ export const create = ({checkTypes}) => {
     const index = array.indexOf (elm);
     return index === -1 ? S.Nothing : S.Just (index);
   };
-  const indexOf = def ('indexOf')
-                      ({})
-                      ([a, $.Array (a), $.Maybe ($.NonNegativeInteger)])
-                      (_indexOf);
+  exportFn.indexOf = def ('indexOf')
+                         ({})
+                         ([a, $.Array (a), $.Maybe ($.NonNegativeInteger)])
+                         (_indexOf);
 
   // _sliceArray :: Array a -> PositiveInteger -> PositiveInteger -> Array a
   const _sliceArray = array => n => index =>
@@ -86,10 +88,10 @@ export const create = ({checkTypes}) => {
       S.range (0),
       S.map (_sliceArray (array) (n))
     ]) (array);
-  const splitEach = def ('splitEach')
-                        ({})
-                        ([$.PositiveInteger, $.Array (a), $.Array ($.Array (a))])
-                        (_splitEach);
+  exportFn.splitEach = def ('splitEach')
+                           ({})
+                           ([$.PositiveInteger, $.Array (a), $.Array ($.Array (a))])
+                           (_splitEach);
 
   // #####################
   // #####   REGEX   #####
@@ -116,13 +118,13 @@ export const create = ({checkTypes}) => {
     S.pipe ([
       S.match (regex),
       S.map (S.prop ('groups')),
-      S.chain (nth (0)),
-      S.join
+      S.chain (exportFn.nth (0)),
+      S.join,
     ]) (string);
-  const firstGroupMatch = def ('firstGroupMatch')
-                              ({})
-                              ([$.RegExp, $.String, $.Maybe ($.String)])
-                              (_firstGroupMatch);
+  exportFn.firstGroupMatch = def ('firstGroupMatch')
+                                 ({})
+                                 ([$.RegExp, $.String, $.Maybe ($.String)])
+                                 (_firstGroupMatch);
 
   // replace :: Regex -> String -> String -> String
   //
@@ -132,10 +134,10 @@ export const create = ({checkTypes}) => {
   // "hello john"
   const _replace = regExp => strReplace => str =>
     str.replace (regExp, strReplace);
-  const replace = def ('replace')
-                      ({})
-                      ([$.RegExp, $.String, $.String, $.String])
-                      (_replace);
+  exportFn.replace = def ('replace')
+                         ({})
+                         ([$.RegExp, $.String, $.String, $.String])
+                         (_replace);
 
   // #####################
   // #####   LOGIC   #####
@@ -169,10 +171,10 @@ export const create = ({checkTypes}) => {
     }
     return S.Left (value);
   };
-  const cond = def ('cond')
-                   ({})
-                   ([$.Array ($.Pair ($.Predicate (a)) ($.Fn (a) (b))), a, $.Either (a) (b)])
-                   (_cond);
+  exportFn.cond = def ('cond')
+                      ({})
+                      ([$.Array ($.Pair ($.Predicate (a)) ($.Fn (a) (b))), a, $.Either (a) (b)])
+                      (_cond);
 
   // ####################
   // #####   LENS   #####
@@ -214,10 +216,10 @@ export const create = ({checkTypes}) => {
   const _toMaybe = predicate => S.ifElse (predicate)
                                          (S.Just)
                                          (S.K (S.Nothing));
-  const toMaybe = def ('toMaybe')
-                      ({})
-                      ([$.Predicate (a), a, $.Maybe (a)])
-                      (_toMaybe);
+  exportFn.toMaybe = def ('toMaybe')
+                         ({})
+                         ([$.Predicate (a), a, $.Maybe (a)])
+                         (_toMaybe);
 
   // ######################
   // #####   EITHER   #####
@@ -237,10 +239,10 @@ export const create = ({checkTypes}) => {
   // Right (2)
   const _toEither = predicate => leftC => x =>
     predicate (x) ? S.Right (x) : S.Left (leftC (x));
-  const toEither = def ('toEither')
-                       ({})
-                       ([$.Predicate (a), $.Fn (a) (b), a, $.Either (b) (a)])
-                       (_toEither);
+  exportFn.toEither = def ('toEither')
+                          ({})
+                          ([$.Predicate (a), $.Fn (a) (b), a, $.Either (b) (a)])
+                          (_toEither);
 
   // #######################
   // #####   FLUTURE   #####
@@ -266,10 +268,10 @@ export const create = ({checkTypes}) => {
   // [resolution]: 1
   const _toFluture = predicate => leftC => x =>
     predicate (x) ? resolve (x) : reject (leftC (x));
-  const toFluture = def ('toFluture')
-                        ({})
-                        ([$.Predicate (a), $.Fn (a) (b), a, FutureType (b) (a)])
-                        (_toFluture);
+  exportFn.toFluture = def ('toFluture')
+                           ({})
+                           ([$.Predicate (a), $.Fn (a) (b), a, FutureType (b) (a)])
+                           (_toFluture);
 
   // maybeToFluture :: b -> Maybe a -> Fluture b a
   //
@@ -288,10 +290,10 @@ export const create = ({checkTypes}) => {
       S.maybeToEither (left),
       eitherToFluture
     ]) (x);
-  const maybeToFluture = def ('maybeToFluture')
-                             ({})
-                             ([b, $.Maybe (a), FutureType (b) (a)])
-                             (_maybeToFluture);
+  exportFn.maybeToFluture = def ('maybeToFluture')
+                                ({})
+                                ([b, $.Maybe (a), FutureType (b) (a)])
+                                (_maybeToFluture);
 
   // eitherToFluture :: Either a b -> Fluture a b
   //
@@ -305,26 +307,10 @@ export const create = ({checkTypes}) => {
   //
   // > fork (log ('rejection')) (log ('resolution')) (f2)
   // [rejection]: "error"
-  const eitherToFluture = def ('eitherToFluture')
-                              ({})
-                              ([$.Either (b) (a), FutureType (b) (a)])
-                              (S.either (reject) (resolve));
+  exportFn.eitherToFluture = def ('eitherToFluture')
+                                 ({})
+                                 ([$.Either (b) (a), FutureType (b) (a)])
+                                 (S.either (reject) (resolve));
 
-  return {
-    toMaybe,
-    indexOf,
-    nth,
-    flMap,
-    splitEach,
-    toFluture,
-    toEither,
-    eitherToFluture,
-    maybeToFluture,
-    firstGroupMatch,
-    replace,
-    cond,
-    lens,
-    view,
-    over,
-  };
+  return exportFn;
 };

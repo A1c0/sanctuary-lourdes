@@ -8,11 +8,14 @@ const lib = S.pipe ([
   Sl.replace (/export const create = \({checkTypes}\) => {/)
              ('const checkTypes = true;'),
   S.lines,
-  lines => S.take (S.fromMaybe (0) (Sl.indexOf ('  return {') (lines)))
-                  (lines),
+  lines =>
+    S.take (S.fromMaybe (0) (Sl.indexOf ('  return exportFn;') (lines)))
+           (lines),
   S.fromMaybe ([]),
   S.reject (S.test (/^ *\/\/.*$/)),
   S.map (Sl.replace (/^ {2}(.*)$/) ('$1')),
+  S.map (Sl.replace (/^exportFn\./) ('const ')),
+  S.map (Sl.replace (/exportFn\./) ('')),
   S.joinWith ('\n'),
   Sl.replace (/\n{3,}/g) ('\n\n'),
 ]) (path.resolve (APP_DIR, 'index.mjs'));
