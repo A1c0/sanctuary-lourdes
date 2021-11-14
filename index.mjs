@@ -1,5 +1,5 @@
 import {parallel, reject, resolve} from 'fluture';
-import {env as flutureEnv, FutureType} from 'fluture-sanctuary-types';
+import {FutureType, env as flutureEnv} from 'fluture-sanctuary-types';
 import sanctuary from 'sanctuary';
 import $ from 'sanctuary-def';
 import Identity from 'sanctuary-identity';
@@ -41,7 +41,7 @@ export const create = ({checkTypes}) => {
                   ([$.NonNegativeInteger, $.Array (a), $.Maybe (a)])
                   (_nth);
 
-  // indexOf :: a -> Array a -> Maybe PositiveNumber
+  // indexOf :: a -> Array a -> Maybe NonNegativeInteger
   //
   // Get the first index of an array which corresponding to an item
   //
@@ -56,7 +56,7 @@ export const create = ({checkTypes}) => {
   };
   const indexOf = def ('indexOf')
                       ({})
-                      ([a, $.Array (a), $.Maybe ($.PositiveInteger)])
+                      ([a, $.Array (a), $.Maybe ($.NonNegativeInteger)])
                       (_indexOf);
 
   // _sliceArray :: Array a -> PositiveInteger -> PositiveInteger -> Array a
@@ -252,11 +252,11 @@ export const create = ({checkTypes}) => {
   // > const toOdd = toFluture (x => x % 2 !== 0)
   // .                         (x => `${x} is not a even number`)
   //
-  // > fork (log ('rejection')) (log ('resolution')) (toOdd (1))
-  // [rejection]: 1 is not a even number
+  // > fork (log ('rejection')) (log ('resolution')) (toOdd (2))
+  // [rejection]: "1 is not a even number"
   //
   // > fork (log ('rejection')) (log ('resolution')) (toOdd (1))
-  // [resolution]: 1 is not a even number
+  // [resolution]: 1
   const _toFluture = predicate => leftC => x =>
     predicate (x) ? resolve (x) : reject (leftC (x));
   const toFluture = def ('toFluture')
@@ -275,7 +275,7 @@ export const create = ({checkTypes}) => {
   // [resolution]: 1
   //
   // > fork (log ('rejection')) (log ('resolution')) (f2)
-  // [rejection]: not a number
+  // [rejection]: "not a number"
   const _maybeToFluture = left => x =>
     S.pipe ([
       S.maybeToEither (left),
@@ -297,7 +297,7 @@ export const create = ({checkTypes}) => {
   // [resolution]: 1
   //
   // > fork (log ('rejection')) (log ('resolution')) (f2)
-  // [rejection]: error
+  // [rejection]: "error"
   const eitherToFluture = def ('eitherToFluture')
                               ({})
                               ([$.Either (b) (a), FutureType (b) (a)])
