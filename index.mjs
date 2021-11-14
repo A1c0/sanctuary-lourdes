@@ -253,7 +253,7 @@ export const create = ({checkTypes}) => {
   // .                         (x => `${x} is not a even number`)
   //
   // > fork (log ('rejection')) (log ('resolution')) (toOdd (2))
-  // [rejection]: "1 is not a even number"
+  // [rejection]: "2 is not a even number"
   //
   // > fork (log ('rejection')) (log ('resolution')) (toOdd (1))
   // [resolution]: 1

@@ -1,7 +1,6 @@
 import * as path from 'path';
 
 import {getApiDoc} from './common.mjs';
-import {debug} from './debug.mjs';
 import {APP_DIR, S, Sl, readFile, writeFile} from './utils.mjs';
 
 const lib = S.pipe ([
@@ -16,7 +15,6 @@ const lib = S.pipe ([
   S.map (Sl.replace (/^ {2}(.*)$/) ('$1')),
   S.joinWith ('\n'),
   Sl.replace (/\n{3,}/g) ('\n\n'),
-  debug ('1'),
 ]) (path.resolve (APP_DIR, 'index.mjs'));
 
 //    isFlutureTest :: Array String -> Boolean
@@ -36,7 +34,7 @@ const joinInstruction = S.pipe ([
 ]);
 
 //    buildFlutureTestInstruction :: Array String -> String
-const extractFluture = Sl.firstGroupMatch (/^fork *\(log *\('rejection'\)\) *\(log *\('resolution'\)\) *\((.*?)\)/);
+const extractFluture = Sl.firstGroupMatch (/^fork *\(log *\('rejection'\)\) *\(log *\('resolution'\)\) *\((.*)\)/);
 
 const buildFlutureTestInstruction = S.pipe ([
   S.flip ({
@@ -54,9 +52,6 @@ const buildFlutureTestInstruction = S.pipe ([
     `t.deepEqual (showIfSanctuaryValue (await forkLog (${current})), parseExpected ('${expected}'));`),
   S.fromMaybe ("throw new Error('Could not build test');"),
 ]);
-
-//t.deepEqual (showIfSanctuaryValue (await forkLog (reject (1))),
-//     parseExpected ('[rejection]: 1'));
 
 //    buildClassicTestInstruction :: Array String -> {current: String, expected: String}
 const buildClassicTestInstruction = S.pipe ([
@@ -141,7 +136,6 @@ const toto = S.pipe ([
       buildTest
     ]),
   }),
-  debug ('bob'),
   ({title, tests}) =>
     [
       `test ('${title}', async t => {`,
@@ -150,7 +144,6 @@ const toto = S.pipe ([
       '});',
     ].flat (Infinity),
   S.joinWith ('\n'),
-  debug ('bobu'),
 ]);
 
 const tests = S.pipe ([

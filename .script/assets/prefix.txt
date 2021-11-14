@@ -2,8 +2,8 @@ const log = l => x => `[${l}]: ${S.show(x)}`;
 
 const isEither = S.is ($.Either ($.Unknown) ($.Unknown));
 const isMaybe = S.is ($.Maybe ($.Unknown));
-const showIfSanctuaryValue = S.when (x => isEither (x) || isMaybe (x))
-                                    (S.show);
+const showIfSanctuaryValue = S.unchecked.when (x => isEither (x) || isMaybe (x))
+                                              (S.show);
 const forkLog = f => promise (f).then (log ('resolution')).catch (log ('rejection'));
 
 const evalValue = S.pipe ([

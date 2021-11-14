@@ -1,4 +1,2 @@
-import {promise, reject} from 'fluture';
+import {promise} from 'fluture';
 import test from 'oletus';
-import S from 'sanctuary';
-import $ from 'sanctuary-def';
