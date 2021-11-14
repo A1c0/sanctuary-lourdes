@@ -1,12 +1,9 @@
+import {create} from '../index.mjs';
+import {env as flutureEnv} from 'fluture-sanctuary-types';
 import * as fs from 'fs';
 import path from 'path';
-import {fileURLToPath} from 'url';
-
-import {env as flutureEnv} from 'fluture-sanctuary-types';
 import sanctuary from 'sanctuary';
-
-import {create} from '../index.mjs';
-import {debug} from './debug.mjs';
+import {fileURLToPath} from 'url';
 
 const S = sanctuary.create ({
   checkTypes: true,
@@ -48,15 +45,15 @@ const indexOf = elm => array => {
 };
 
 const buildUrl = index =>
-  `https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L${S.add (1)
-                                                                          (index)
-                                                                          }`;
+  `https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L${S.add(1)(
+    index
+  )}`;
 
 const buildExemples = e => ['```js', e, '```'].join ('\n');
 
 const defToString = ({index, title, meta, exemples}) =>
   [
-    `#### <a href="${buildUrl (index)}">\`${title}\`</a>`,
+    `#### <a href="${buildUrl(index)}">\`${title}\`</a>`,
     meta,
     buildExemples (exemples),
   ].join ('\n\n');
@@ -121,7 +118,6 @@ S.pipe ([
   S.append (''),
   S.append (apiString),
   S.append (''),
-  debug ('toto'),
   S.unlines,
   writeFile (readmePath),
 ]) (readmePath);

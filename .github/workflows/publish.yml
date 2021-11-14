@@ -1,0 +1,31 @@
+name: Checks
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish-and-tag:
+    name: Publish on NPM registry and create tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # Setup .npmrc file to publish to npm
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+      - name: NPM or Yarn install with caching
+        uses: bahmutov/npm-install@v1
+      - run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ github.token }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: "refs/tags/$(node -e "console.log(require('./package.json').version)")",
+              sha: context.sha
+            })
