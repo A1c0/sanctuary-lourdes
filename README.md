@@ -199,7 +199,23 @@ Right (2)
 
 ### Fluture
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L268">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L262">`flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c`</a>
+
+Apply a function that return a Fluture on each item of an array and return a Fluture
+
+```js
+> const array = [1, 2, 3, 4, 5]
+> const f1 = flMap (1) (x => resolve (1 + x)) (array);
+> const f2 = flMap (1) (x => reject ("error: " + x)) (array);
+
+> fork (log ('rejection')) (log ('resolution')) (f1)
+[resolution]: [2, 3, 4, 5, 6]
+
+> fork (log ('rejection')) (log ('resolution')) (f2)
+[rejection]: "error: 1"
+```
+
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L281">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
 
 Convert to a Fluture depending on predicate
 
@@ -214,7 +230,7 @@ Convert to a Fluture depending on predicate
 [resolution]: 1
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L287">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L300">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
 
 Convert a Maybe to a Fluture
 
@@ -229,7 +245,7 @@ Convert a Maybe to a Fluture
 [rejection]: "not a number"
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L309">`eitherToFluture :: Either a b -> Fluture a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L322">`eitherToFluture :: Either a b -> Fluture a b`</a>
 
 Convert a Either to a Fluture
 

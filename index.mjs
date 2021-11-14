@@ -19,6 +19,7 @@ export const create = ({checkTypes}) => {
 
   const a = $.TypeVariable ('a');
   const b = $.TypeVariable ('b');
+  const c = $.TypeVariable ('c');
 
   // #####################
   // #####   ARRAY   #####
@@ -260,10 +261,26 @@ export const create = ({checkTypes}) => {
   // #######################
 
   // flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c
-  const flMap = n => fn => array => S.pipe ([
+  //
+  // Apply a function that return a Fluture on each item of an array and return a Fluture
+  //
+  // > const array = [1, 2, 3, 4, 5]
+  // > const f1 = flMap (1) (x => resolve (1 + x)) (array);
+  // > const f2 = flMap (1) (x => reject ("error: " + x)) (array);
+  //
+  // > fork (log ('rejection')) (log ('resolution')) (f1)
+  // [resolution]: [2, 3, 4, 5, 6]
+  //
+  // > fork (log ('rejection')) (log ('resolution')) (f2)
+  // [rejection]: "error: 1"
+  const _flMap = n => fn => array => S.pipe ([
     S.map (fn),
     parallel (n)
   ]) (array);
+  exportFn.flMap = def ('flMap')
+                       ({})
+                       ([$.PositiveNumber, $.Fn (a) (FutureType (b) (c)), $.Array (a), FutureType (b) ($.Array (c))])
+                       (_flMap);
 
   // toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a
   //
