@@ -38,7 +38,7 @@ const bundleDef = lines => defLines =>
         S.splitOn ('\n\n'),
         Sl.nth (1),
       ]),
-      exemples: S.pipe ([
+      examples: S.pipe ([
         S.map (replace (/ *\/\/ */) ('')),
         S.joinWith ('\n'),
         S.splitOn ('\n\n'),

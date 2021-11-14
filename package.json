@@ -18,11 +18,6 @@
     "test": "./doctest.sh",
     "sync-doc": "CHECK_TYPES_SANCTUAR=false node .script/sync-doc.mjs"
   },
-  "importSort": {
-    ".mjs, .jsx, .ts, .tsx": {
-      "style": "module"
-    }
-  },
   "dependencies": {
     "fluture": "^14.0.0",
     "fluture-sanctuary-types": "^7.1.0",
@@ -31,10 +26,9 @@
     "sanctuary-identity": "^2.1.0"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
     "husky": "^7.0.4",
-    "import-sort-style-module": "^6.0.0",
     "oletus": "^3.2.0",
-    "prettier-plugin-import-sort": "^0.0.7",
     "prettier-sanctuary": "https://github.com/A1c0/prettier-sanctuary#override-config"
   }
 }

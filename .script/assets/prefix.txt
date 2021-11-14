@@ -1,0 +1,22 @@
+import {promise, reject} from 'fluture';
+import test from 'oletus';
+import S from 'sanctuary';
+import $ from 'sanctuary-def';
+
+const log = l => x => `[${l}]: ${S.show(x)}`;
+
+const isEither = S.is ($.Either ($.Unknown) ($.Unknown));
+const isMaybe = S.is ($.Maybe ($.Unknown));
+const showIfSanctuaryValue = S.when (x => isEither (x) || isMaybe (x))
+                                    (S.show);
+const forkLog = f => promise (f).then (log ('resolution')).catch (log ('rejection'));
+
+const evalValue = S.pipe ([
+  s => `(${s})`,
+  S.encase (eval)
+]);
+
+const parseExpected = x => S.pipe ([
+  evalValue,
+  S.unchecked.fromEither (x)
+]) (x);

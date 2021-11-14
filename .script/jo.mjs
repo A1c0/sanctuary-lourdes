@@ -1,5 +1,7 @@
-import {APP_DIR, readFile, S, Sl} from './utils.mjs';
 import * as path from 'path';
+
+import {debug} from './debug.mjs';
+import {APP_DIR, S, Sl, readFile} from './utils.mjs';
 
 S.pipe ([
   readFile,
@@ -13,4 +15,5 @@ S.pipe ([
   S.map (Sl.replace (/^ {2}(.*)$/) ('$1')),
   S.joinWith ('\n'),
   Sl.replace (/\n{3,}/g) ('\n\n'),
+  debug ('1'),
 ]) (path.resolve (APP_DIR, 'index.mjs'));
