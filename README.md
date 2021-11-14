@@ -47,26 +47,15 @@ const Sl = create({checkTypes: CHECK_TYPES_SANCTUARY});
 Get the N th elements of array
 
 ```js
-> nth (0) ([])
-Nothing
 
-> nth (1) ([1, 2, 3])
-Just (2)
-
-> nth (7) ([1, 2, 3])
-Nothing
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L44">`indexOf :: a -> Array a -> Maybe PositiveNumber`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L44">`indexOf :: a -> Array a -> Maybe NonNegativeInteger`</a>
 
 Get the first index of an array which corresponding to an item
 
 ```js
-> indexOf ('red') (['red', 'green', 'blue'])
-Just (0)
 
-> indexOf ('yellow') (['red', 'green', 'blue'])
-Nothing
 ```
 
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L74">`splitEach :: PositiveInteger -> Array a -> Array Array a`</a>
@@ -74,11 +63,7 @@ Nothing
 Split an array on sub-array of size N
 
 ```js
-> splitEach (3) ([1, 2, 3, 4, 5, 6, 7, 8, 9])
-[[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-> splitEach (2) ([1, 2, 3, 4, 5, 6, 7])
-[[1, 2], [3, 4], [5, 6], [7]]
 ```
 
 ### Regex
@@ -88,19 +73,7 @@ Split an array on sub-array of size N
 Get the first match in a string
 
 ```js
-> const firstGroupMatchExample = firstGroupMatch (/hello ([a-z]*)!/);
 
-> firstGroupMatchExample ('hello john!')
-Just ("john")
-
-> firstGroupMatchExample ('hello bob!')
-Just ("bob")
-
-> firstGroupMatchExample ('hello 123!')
-Nothing
-
-> firstGroupMatchExample ('hi john!')
-Nothing
 ```
 
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L127">`replace :: Regex -> String -> String -> String`</a>
@@ -108,8 +81,7 @@ Nothing
 Replace a substring with a RegExp
 
 ```js
-> replace (/bob/) ('john') ('hello bob')
-"hello john"
+
 ```
 
 ### Logic
@@ -120,19 +92,7 @@ Apply transformer when predicate return true anc return a Right value
 If any predicate return `true`, it will return initial value in Left Value
 
 ```js
-> const condExemple = cond ([
-.   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
-.   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
-. ])
 
-> condExemple ('hello')
-Right ("HELLO")
-
-> condExemple ('HELLO!')
-Right ("hello!")
-
-> condExemple ('123!')
-Left ("123!")
 ```
 
 ### Lens
@@ -144,14 +104,7 @@ Left ("123!")
 Wrapping value in Maybe depending on predicate
 
 ```js
-> toMaybe (x => !!x) (null)
-Nothing
 
-> toMaybe (x => !!x) (undefined)
-Nothing
-
-> toMaybe (x => !!x) (1)
-Just (1)
 ```
 
 ### Either
@@ -161,14 +114,7 @@ Just (1)
 Convert to Either depending on predicate
 
 ```js
-> const toEven = toEither (x => x % 2 === 0)
-.                         (x => `${x} is not a even number`)
 
-> toEven (1)
-Left ("1 is not a even number")
-
-> toEven (2)
-Right (2)
 ```
 
 ### Fluture
@@ -178,14 +124,7 @@ Right (2)
 Convert to a Fluture depending on predicate
 
 ```js
-> const toOdd = toFluture (x => x % 2 !== 0)
-.                         (x => `${x} is not a even number`)
 
-> fork (log ('rejection')) (log ('resolution')) (toOdd (1))
-[rejection]: 1 is not a even number
-
-> fork (log ('rejection')) (log ('resolution')) (toOdd (1))
-[resolution]: 1 is not a even number
 ```
 
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L267">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
@@ -193,14 +132,7 @@ Convert to a Fluture depending on predicate
 Convert a Maybe to a Fluture
 
 ```js
-> const f1 = maybeToFluture ("not a number") (S.Just (1))
-> const f2 = maybeToFluture ("not a number") (S.Nothing)
 
-> fork (log ('rejection')) (log ('resolution')) (f1)
-[resolution]: 1
-
-> fork (log ('rejection')) (log ('resolution')) (f2)
-[rejection]: not a number
 ```
 
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L289">`eitherToFluture :: Either a b -> Fluture a b`</a>
@@ -208,12 +140,5 @@ Convert a Maybe to a Fluture
 Convert a Either to a Fluture
 
 ```js
-> const f1 = eitherToFluture (S.Right (1))
-> const f2 = eitherToFluture (S.Left ("error"))
 
-> fork (log ('rejection')) (log ('resolution')) (f1)
-[resolution]: 1
-
-> fork (log ('rejection')) (log ('resolution')) (f2)
-[rejection]: error
 ```
