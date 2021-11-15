@@ -316,7 +316,7 @@ export const create = ({checkTypes}) => {
   const _maybeToFluture = left => x =>
     S.pipe ([
       S.maybeToEither (left),
-      eitherToFluture
+      exportFn.eitherToFluture
     ]) (x);
   exportFn.maybeToFluture = def ('maybeToFluture')
                                 ({})
