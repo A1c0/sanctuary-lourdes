@@ -42,7 +42,7 @@ const Sl = create({checkTypes: CHECK_TYPES_SANCTUARY});
 
 ### Array
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L27">`nth :: NonNegativeInteger -> Array a -> Maybe a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L28">`nth :: NonNegativeInteger -> Array a -> Maybe a`</a>
 
 Get the N th elements of array
 
@@ -57,7 +57,7 @@ Just (2)
 Nothing
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L46">`indexOf :: a -> Array a -> Maybe NonNegativeInteger`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L47">`indexOf :: a -> Array a -> Maybe NonNegativeInteger`</a>
 
 Get the first index of an array which corresponding to an item
 
@@ -69,7 +69,7 @@ Just (0)
 Nothing
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L76">`splitEach :: PositiveInteger -> Array a -> Array Array a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L77">`splitEach :: PositiveInteger -> Array a -> Array Array a`</a>
 
 Split an array on sub-array of size N
 
@@ -83,7 +83,7 @@ Split an array on sub-array of size N
 
 ### Regex
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L100">`firstGroupMatch :: Regex -> String -> Maybe String`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L101">`firstGroupMatch :: Regex -> String -> Maybe String`</a>
 
 Get the first match in a string
 
@@ -103,18 +103,21 @@ Nothing
 Nothing
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L129">`replace :: Regex -> String -> String -> String`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L130">`replace :: Regex -> String -> String -> String`</a>
 
 Replace a substring with a RegExp
 
 ```js
 > replace (/bob/) ('john') ('hello bob')
 "hello john"
+
+> replace (/a/gi) ('o') ('Aaaaahhhh')
+"ooooohhhh"
 ```
 
 ### Logic
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L146">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L150">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
 
 Apply transformer when predicate return true anc return a Right value
 If any predicate return `true`, it will return initial value in Left Value
@@ -139,7 +142,7 @@ Left ("123!")
 
 Use [implementation created by David Chambers](https://gist.github.com/davidchambers/45aa0187a32fbac6912d4b3b4e8530c5)
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L189">`view :: Lens s a -> s -> a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L193">`view :: Lens s a -> s -> a`</a>
 
 Allow to get a value by a Lens
 
@@ -151,7 +154,7 @@ Allow to get a value by a Lens
 dc@davidchambers.me
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L200">`over :: Lens s a -> (a -> a) -> s -> s`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L204">`over :: Lens s a -> (a -> a) -> s -> s`</a>
 
 Allow to set a value by a Lens
 
@@ -165,7 +168,7 @@ Allow to set a value by a Lens
 
 ### Maybe
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L215">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L219">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
 
 Wrapping value in Maybe depending on predicate
 
@@ -182,7 +185,7 @@ Just (1)
 
 ### Either
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L239">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L243">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
 
 Convert to Either depending on predicate
 
@@ -199,7 +202,7 @@ Right (2)
 
 ### Fluture
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L262">`flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L266">`flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c`</a>
 
 Apply a function that return a Fluture on each item of an array and return a Fluture
 
@@ -215,7 +218,7 @@ Apply a function that return a Fluture on each item of an array and return a Flu
 [rejection]: "error: 1"
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L281">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L288">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
 
 Convert to a Fluture depending on predicate
 
@@ -230,7 +233,7 @@ Convert to a Fluture depending on predicate
 [resolution]: 1
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L300">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L307">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
 
 Convert a Maybe to a Fluture
 
@@ -245,7 +248,7 @@ Convert a Maybe to a Fluture
 [rejection]: "not a number"
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L322">`eitherToFluture :: Either a b -> Fluture a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L329">`eitherToFluture :: Either a b -> Fluture a b`</a>
 
 Convert a Either to a Fluture
 
