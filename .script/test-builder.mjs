@@ -39,7 +39,7 @@ const joinInstruction = S.pipe ([
 ]);
 
 //    buildFlutureTestInstruction :: Array String -> String
-const extractFluture = Sl.firstGroupMatch (/^fork *\(log *\('rejection'\)\) *\(log *\('resolution'\)\) *\((.*)\)/);
+const extractFluture = Sl.extractString (/^fork *\(log *\('rejection'\)\) *\(log *\('resolution'\)\) *\((.*)\)/);
 
 const buildFlutureTestInstruction = S.pipe ([
   S.flip ({
@@ -133,7 +133,7 @@ const toto = S.pipe ([
   S.unchecked.flip ({
     title: S.pipe ([
       S.prop ('title'),
-      Sl.firstGroupMatch (/^([a-zA-Z0-9]+) :: /),
+      Sl.extractString (/^([a-zA-Z0-9]+) :: /),
       S.fromMaybe ('Unknown'),
     ]),
     tests: S.pipe ([

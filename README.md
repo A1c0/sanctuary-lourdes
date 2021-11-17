@@ -83,23 +83,23 @@ Split an array on sub-array of size N
 
 ### Regex
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L101">`firstGroupMatch :: Regex -> String -> Maybe String`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L101">`extractString :: Regex -> String -> Maybe String`</a>
 
-Get the first match in a string
+Get the first group match in a string
 
 ```js
-> const firstGroupMatchExample = firstGroupMatch (/hello ([a-z]*)!/);
+> const extractStringExample = extractString (/hello ([a-z]*)!/);
 
-> firstGroupMatchExample ('hello john!')
+> extractStringExample ('hello john!')
 Just ("john")
 
-> firstGroupMatchExample ('hello bob!')
+> extractStringExample ('hello bob!')
 Just ("bob")
 
-> firstGroupMatchExample ('hello 123!')
+> extractStringExample ('hello 123!')
 Nothing
 
-> firstGroupMatchExample ('hi john!')
+> extractStringExample ('hi john!')
 Nothing
 ```
 

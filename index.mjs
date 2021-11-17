@@ -98,34 +98,34 @@ export const create = ({checkTypes}) => {
   // #####   REGEX   #####
   // #####################
 
-  // firstGroupMatch :: Regex -> String -> Maybe String
+  // extractString :: Regex -> String -> Maybe String
   //
-  // Get the first match in a string
+  // Get the first group match in a string
   //
-  // > const firstGroupMatchExample = firstGroupMatch (/hello ([a-z]*)!/);
+  // > const extractStringExample = extractString (/hello ([a-z]*)!/);
   //
-  // > firstGroupMatchExample ('hello john!')
+  // > extractStringExample ('hello john!')
   // Just ("john")
   //
-  // > firstGroupMatchExample ('hello bob!')
+  // > extractStringExample ('hello bob!')
   // Just ("bob")
   //
-  // > firstGroupMatchExample ('hello 123!')
+  // > extractStringExample ('hello 123!')
   // Nothing
   //
-  // > firstGroupMatchExample ('hi john!')
+  // > extractStringExample ('hi john!')
   // Nothing
-  const _firstGroupMatch = regex => string =>
+  const _extractString = regex => string =>
     S.pipe ([
       S.match (regex),
       S.map (S.prop ('groups')),
       S.chain (exportFn.nth (0)),
       S.join,
     ]) (string);
-  exportFn.firstGroupMatch = def ('firstGroupMatch')
-                                 ({})
-                                 ([$.RegExp, $.String, $.Maybe ($.String)])
-                                 (_firstGroupMatch);
+  exportFn.extractString = def ('extractString')
+                               ({})
+                               ([$.RegExp, $.String, $.Maybe ($.String)])
+                               (_extractString);
 
   // replace :: Regex -> String -> String -> String
   //

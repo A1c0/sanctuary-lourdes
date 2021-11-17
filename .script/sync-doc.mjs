@@ -1,7 +1,6 @@
 import path from 'path';
 
 import {getApiDoc} from './common.mjs';
-import {debug} from './debug.mjs';
 import {APP_DIR, S, Sl, readFile, replace, writeFile} from './utils.mjs';
 
 const buildUrl = index =>
@@ -33,7 +32,7 @@ const removeCommentMarkerAndJoin = S.pipe ([
 //    getDocTitle :: Array String -> Maybe String
 const getDocTitle = S.pipe ([
   removeCommentMarkerAndJoin,
-  Sl.firstGroupMatch (/#*\n#{5} {3}([A-Za-z]+) {3}#{5}\n#*/),
+  Sl.extractString (/#*\n#{5} {3}([A-Za-z]+) {3}#{5}\n#*/),
   S.map (toCapitalize),
 ]);
 
@@ -46,7 +45,7 @@ const getFormattedTitle = S.pipe ([
 //    getFormattedDescription :: Array String -> Maybe String
 const getFormattedDescription = S.pipe ([
   removeCommentMarkerAndJoin,
-  Sl.firstGroupMatch (/#*\n#{5} {3}[A-Za-z]+ {3}#{5}\n#*\n\n(.*(\n.*)*)/),
+  Sl.extractString (/#*\n#{5} {3}[A-Za-z]+ {3}#{5}\n#*\n\n(.*(\n.*)*)/),
   S.map (Sl.replace (/\n/g) (' ')),
 ]);
 
@@ -77,8 +76,7 @@ const docSummary = S.pipe ([
 
 //    apiString :: String
 const apiString = S.pipe ([
-  S.map (S.map (defToString)),
-  S.map (S.either (extractWantedDoc) (S.Right)),
+  S.map (S.either (extractWantedDoc) (x => S.Right (defToString (x)))),
   S.rights,
   S.joinWith ('\n\n'),
 ]) (apiDoc);
