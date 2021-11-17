@@ -133,6 +133,9 @@ export const create = ({checkTypes}) => {
   //
   // > replace (/bob/) ('john') ('hello bob')
   // "hello john"
+  //
+  // > replace (/a/gi) ('o') ('Aaaaahhhh')
+  // "ooooohhhh"
   const _replace = regExp => strReplace => str =>
     str.replace (regExp, strReplace);
   exportFn.replace = def ('replace')
