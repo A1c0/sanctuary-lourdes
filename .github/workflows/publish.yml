@@ -15,6 +15,7 @@ jobs:
           node-version: '16.x'
       - name: NPM or Yarn install with caching
         uses: bahmutov/npm-install@v1
+      - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
