@@ -19,14 +19,17 @@ jobs:
       - run: yarn publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - run : export TAG_VERSION=$(node -e "console.log(require('./package.json').version)
+      - run : echo $TAG_VERSION
       - name: Create tag
         uses: actions/github-script@v5
         with:
           github-token: ${{ github.token }}
           script: |
+            const { TAG_VERSION } = process.env
             github.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: "refs/tags/$(node -e "console.log(require('./package.json').version)")",
+              ref: `refs/tags/${TAG_VERSION})`,
               sha: context.sha
             })
