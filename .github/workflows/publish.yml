@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16.x'
+          always-auth: true
       - name: NPM or Yarn install with caching
         uses: bahmutov/npm-install@v1
       - run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_AUTH_TOKEN }}" > ~/.npmrc
