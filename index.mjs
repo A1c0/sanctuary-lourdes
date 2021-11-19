@@ -1,5 +1,5 @@
 import {parallel, reject, resolve} from 'fluture';
-import {FutureType, env as flutureEnv} from 'fluture-sanctuary-types';
+import {env as flutureEnv, FutureType} from 'fluture-sanctuary-types';
 import sanctuary from 'sanctuary';
 import $ from 'sanctuary-def';
 import Identity from 'sanctuary-identity';
@@ -154,7 +154,7 @@ export const create = ({checkTypes}) => {
 
   // cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b
   //
-  // Apply transformer when predicate return true anc return a Right value
+  // Apply transformer predicate return true anc return a Right value
   // If any predicate return `true`, it will return initial value in Left Value
   //
   // > cond ([

@@ -1,6 +1,6 @@
 {
   "name": "sanctuary-lourdes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.mjs",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
@@ -15,7 +15,7 @@
     "index.mjs"
   ],
   "scripts": {
-    "test": "./doctest.sh",
+    "test": ".script/doctest.sh",
     "sync-doc": "node .script/sync-doc.mjs"
   },
   "importSort": {
