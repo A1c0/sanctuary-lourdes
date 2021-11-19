@@ -16,10 +16,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: NPM or Yarn install with caching
         uses: bahmutov/npm-install@v1
-      - run: yarn publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run : export TAG_VERSION=$(node -e "console.log(require('./package.json').version)
+      - run : export TAG_VERSION=$(node -e "console.log(require('./package.json').version")
       - run : echo $TAG_VERSION
       - name: Create tag
         uses: actions/github-script@v5
@@ -33,3 +30,6 @@ jobs:
               ref: `refs/tags/${TAG_VERSION})`,
               sha: context.sha
             })
+      - run: yarn publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
