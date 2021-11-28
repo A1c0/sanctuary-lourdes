@@ -15,7 +15,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: NPM or Yarn install with caching
         uses: bahmutov/npm-install@v1
-      - run : echo "TAG_VERSION=v$(node -e "console.log(require('./package.json').version)")" >> $GITHUB_ENV
+      - run : echo "PACKAGE_JSON_VERSION=$(node -e "console.log(require('./package.json').version)")" >> $GITHUB_ENV
+      - run : echo "TAG_VERSION=v$PACKAGE_JSON_VERSION" >> $GITHUB_ENV
       - name: Create tag
         uses: actions/github-script@v5
         with:
@@ -31,8 +32,16 @@ jobs:
         uses: actions/github-script@v5
         with:
           script: |
-            const { TAG_VERSION } = process.env;
+            const { PACKAGE_JSON_VERSION, TAG_VERSION } = process.env;
+            const prs = await octokit.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "all"
+            }).then(x => x.data);
+            const body = prs.find(x => x.merge_commit_sha === context.sha)?.body ?? "- some bugfixes or improving performance features";
             github.rest.repos.createRelease({
+              name: `Version ${PACKAGE_JSON_VERSION}`,
+              body: body,
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag_name: TAG_VERSION,
