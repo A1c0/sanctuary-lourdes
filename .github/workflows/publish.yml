@@ -33,7 +33,7 @@ jobs:
         with:
           script: |
             const { PACKAGE_JSON_VERSION, TAG_VERSION } = process.env;
-            const prs = await octokit.rest.pulls.list({
+            const prs = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: "all"
