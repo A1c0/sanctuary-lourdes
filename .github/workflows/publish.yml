@@ -33,12 +33,13 @@ jobs:
         with:
           script: |
             const { PACKAGE_JSON_VERSION, TAG_VERSION } = process.env;
-            const prs = await octokit.rest.pulls.list({
+            const prs = await github.rest.pulls.list({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: "all"
             }).then(x => x.data);
-            const body = prs.find(x => x.merge_commit_sha === context.sha)?.body ?? "- some bugfixes or improving performance features";
+            const pr = prs.find(x => x.merge_commit_sha === "a25661f4435bf6ce7a07757ad49bcf2d474e41d4");
+            const body = pr && pr.body || "- some bugfixes or improving performance features";
             github.rest.repos.createRelease({
               name: `Version ${PACKAGE_JSON_VERSION}`,
               body: body,
