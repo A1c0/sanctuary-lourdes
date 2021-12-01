@@ -119,7 +119,7 @@ Replace a substring with a RegExp
 
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L150">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
 
-Apply transformer when predicate return true anc return a Right value
+Apply transformer predicate return true anc return a Right value
 If any predicate return `true`, it will return initial value in Left Value
 
 ```js

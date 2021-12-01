@@ -15,7 +15,7 @@
     "index.mjs"
   ],
   "scripts": {
-    "test": "./doctest.sh",
+    "test": ".script/doctest.sh",
     "sync-doc": "CHECK_TYPES_SANCTUAR=false node .script/sync-doc.mjs"
   },
   "dependencies": {
