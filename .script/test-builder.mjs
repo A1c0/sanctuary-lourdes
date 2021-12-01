@@ -13,12 +13,9 @@ const lib = S.pipe ([
            (lines),
   S.fromMaybe ([]),
   S.reject (S.test (/^ *\/\/.*$/)),
-  S.map (S.pipe ([
-    Sl.replace (/^ {2}(.*)$/) ('$1'),
-    Sl.replace (/^exportFn\./) ('const '),
-    Sl.replace (/exportFn\./) (''),
-  ])),
+  S.map (Sl.replace (/^ {2}(.*)$/) ('$1')),
   S.joinWith ('\n'),
+  Sl.replace (/^exportFn.*?(\n.*?)*;$/gm) (''),
   Sl.replace (/\n{3,}/g) ('\n\n'),
 ]) (path.resolve (APP_DIR, 'index.mjs'));
 
