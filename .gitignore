@@ -2,3 +2,5 @@ sandbox
 .idea
 node_modules
 *.log
+/test/
+/sanctuary-lourde.test.mjs

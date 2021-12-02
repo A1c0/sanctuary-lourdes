@@ -1,6 +1,6 @@
 {
   "name": "sanctuary-lourdes",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "main": "index.mjs",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
@@ -16,12 +16,7 @@
   ],
   "scripts": {
     "test": ".script/doctest.sh",
-    "sync-doc": "node .script/sync-doc.mjs"
-  },
-  "importSort": {
-    ".mjs, .jsx, .ts, .tsx": {
-      "style": "module"
-    }
+    "sync-doc": "CHECK_TYPES_SANCTUAR=false node .script/sync-doc.mjs"
   },
   "dependencies": {
     "fluture": "^14.0.0",
@@ -31,11 +26,9 @@
     "sanctuary-identity": "^2.1.0"
   },
   "devDependencies": {
-    "doctest": "^0.18.1",
-    "husky": "^7.0.2",
-    "import-sort-style-module": "^6.0.0",
-    "prettier": "^2.4.0",
-    "prettier-plugin-import-sort": "^0.0.7",
-    "prettier-sanctuary": "^0.6.1"
+    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
+    "husky": "^7.0.4",
+    "oletus": "^3.2.0",
+    "prettier-sanctuary": "^0.9.9"
   }
 }
