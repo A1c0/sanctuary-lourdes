@@ -157,18 +157,18 @@ export const create = ({checkTypes}) => {
   // Apply transformer predicate return true anc return a Right value
   // If any predicate return `true`, it will return initial value in Left Value
   //
-  // > const condExemple = cond ([
+  // > const condExample = cond ([
   // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
   // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
   // . ])
   //
-  // > condExemple ('hello')
+  // > condExample ('hello')
   // Right ("HELLO")
   //
-  // > condExemple ('HELLO!')
+  // > condExample ('HELLO!')
   // Right ("hello!")
   //
-  // > condExemple ('123!')
+  // > condExample ('123!')
   // Left ("123!")
   const _cond = conditionPairs => value => {
     for (const pair of conditionPairs) {
