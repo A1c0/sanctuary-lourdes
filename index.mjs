@@ -153,6 +153,72 @@ export const create = ({checkTypes}) => {
   // #####   LOGIC   #####
   // #####################
 
+  // allPass :: Array (a -> Boolean) -> a -> Boolean
+  //
+  // Return `true` if all predicates return true, else return `false`
+  //
+  // > const isEvenNumber = x => x%2 === 0;
+  // > const isPositiveNumber  = x => x > 0;
+  // > const isPositiveEvenNumber = allPass ([isEvenNumber, isPositiveNumber]);
+  //
+  // > isPositiveEvenNumber (0)
+  // false
+  //
+  // > isPositiveEvenNumber (1)
+  // false
+  //
+  // > isPositiveEvenNumber (-2)
+  // false
+  //
+  // > isPositiveEvenNumber (2)
+  // true
+  const _allPass = predicates => value => {
+    for (const predicate of predicates) {
+      if (!predicate (value)) {
+        return false;
+      }
+    }
+    return true;
+  };
+  const allPass = def ('allPass')
+                      ({})
+                      ([$.Array ($.Predicate (a)), a, $.Boolean])
+                      (_allPass);
+  exportFn.allPass = predicates => value => allPass (predicates) (value);
+
+  // anyPass :: Array (a -> Boolean) -> a -> Boolean
+  //
+  // Return `true` if one of predicates return true, else return `false`
+  //
+  // > const isSix = x => x === 6;
+  // > const isNegative  = x => x < 0;
+  // > const isNegativeOrSix = anyPass ([isNegative, isSix]);
+  //
+  // > isNegativeOrSix (0)
+  // false
+  //
+  // > isNegativeOrSix (1)
+  // false
+  //
+  // > isNegativeOrSix (-2)
+  // true
+  //
+  // > isNegativeOrSix (6)
+  // true
+  const _anyPass = predicates => value => {
+    for (const predicate of predicates) {
+      if (predicate (value)) {
+        return true;
+      }
+    }
+    return false;
+  };
+  const anyPass = def ('anyPass')
+                      ({})
+                      ([$.Array ($.Predicate (a)), a, $.Boolean])
+                      (_anyPass);
+  exportFn.anyPass = predicates => value => anyPass (predicates) (value);
+
   // cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b
   //
   // Apply transformer predicate return true anc return a Right value
