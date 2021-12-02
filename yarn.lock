@@ -413,9 +413,10 @@ picocolors@^1.0.0:
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
-"prettier-sanctuary@https://github.com/A1c0/prettier-sanctuary#override-config":
+prettier-sanctuary@^0.9.9:
   version "0.9.9"
-  resolved "https://github.com/A1c0/prettier-sanctuary#1584aad90ecec2afd8903d3f8c661c51f6d1c3f4"
+  resolved "https://registry.yarnpkg.com/prettier-sanctuary/-/prettier-sanctuary-0.9.9.tgz#603bbf94161de9170b470c63f9d24910c9c4f11b"
+  integrity sha512-goBWxXGXJ6HIDAyk4gKRoRC46Nrly8AeENnyozv+dYyYz4QAW1sh3stRLtTEVB+eRbUMn6A3sotLp0Ud33aENg==
   dependencies:
     prettier "^2.4.1"
 

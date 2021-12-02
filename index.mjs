@@ -125,10 +125,11 @@ export const create = ({checkTypes}) => {
       S.chain (nth (0)),
       S.join
     ]) (string);
-  exportFn.extractString = def ('extractString')
-                               ({})
-                               ([$.RegExp, $.String, $.Maybe ($.String)])
-                               (_extractString);
+  const extractString = def ('extractString')
+                            ({})
+                            ([$.RegExp, $.String, $.Maybe ($.String)])
+                            (_extractString);
+  exportFn.extractString = regex => string => extractString (regex) (string);
 
   // replace :: Regex -> String -> String -> String
   //
@@ -160,7 +161,7 @@ export const create = ({checkTypes}) => {
   // > const condExample = cond ([
   // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
   // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
-  // . ])
+  // . ]);
   //
   // > condExample ('hello')
   // Right ("HELLO")
@@ -255,7 +256,7 @@ export const create = ({checkTypes}) => {
   // Convert to Either depending on predicate
   //
   // > const toEven = toEither (x => x % 2 === 0)
-  // .                         (x => `${x} is not a even number`)
+  // .                         (x => `${x} is not a even number`);
   //
   // > toEven (1)
   // Left ("1 is not a even number")
@@ -279,7 +280,7 @@ export const create = ({checkTypes}) => {
   //
   // Apply a function that return a Fluture on each item of an array and return a Fluture
   //
-  // > const array = [1, 2, 3, 4, 5]
+  // > const array = [1, 2, 3, 4, 5];
   // > const f1 = flMap (1) (x => resolve (1 + x)) (array);
   // > const f2 = flMap (1) (x => reject ("error: " + x)) (array);
   //
@@ -304,7 +305,7 @@ export const create = ({checkTypes}) => {
   // Convert to a Fluture depending on predicate
   //
   // > const toOdd = toFluture (x => x % 2 !== 0)
-  // .                         (x => `${x} is not a odd number`)
+  // .                         (x => `${x} is not a odd number`);
   //
   // > fork (log ('rejection')) (log ('resolution')) (toOdd (2))
   // [rejection]: "2 is not a odd number"
@@ -324,8 +325,8 @@ export const create = ({checkTypes}) => {
   //
   // Convert a Maybe to a Fluture
   //
-  // > const f1 = maybeToFluture ("not a number") (S.Just (1))
-  // > const f2 = maybeToFluture ("not a number") (S.Nothing)
+  // > const f1 = maybeToFluture ("not a number") (S.Just (1));
+  // > const f2 = maybeToFluture ("not a number") (S.Nothing);
   //
   // > fork (log ('rejection')) (log ('resolution')) (f1)
   // [resolution]: 1
@@ -347,8 +348,8 @@ export const create = ({checkTypes}) => {
   //
   // Convert an Either to a Fluture
   //
-  // > const f1 = eitherToFluture (S.Right (1))
-  // > const f2 = eitherToFluture (S.Left ("error"))
+  // > const f1 = eitherToFluture (S.Right (1));
+  // > const f2 = eitherToFluture (S.Left ("error"));
   //
   // > fork (log ('rejection')) (log ('resolution')) (f1)
   // [resolution]: 1

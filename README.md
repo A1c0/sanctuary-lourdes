@@ -57,7 +57,7 @@ Just (2)
 Nothing
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L47">`indexOf :: a -> Array a -> Maybe NonNegativeInteger`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L48">`indexOf :: a -> Array a -> Maybe NonNegativeInteger`</a>
 
 Get the first index of an array which corresponding to an item
 
@@ -69,7 +69,7 @@ Just (0)
 Nothing
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L77">`splitEach :: PositiveInteger -> Array a -> Array Array a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L79">`splitEach :: PositiveInteger -> Array a -> Array Array a`</a>
 
 Split an array on sub-array of size N
 
@@ -83,7 +83,7 @@ Split an array on sub-array of size N
 
 ### Regex
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L101">`extractString :: Regex -> String -> Maybe String`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L104">`extractString :: Regex -> String -> Maybe String`</a>
 
 Get the first group match in a string
 
@@ -103,7 +103,7 @@ Nothing
 Nothing
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L130">`replace :: Regex -> String -> String -> String`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L134">`replace :: Regex -> String -> String -> String`</a>
 
 Replace a substring with a RegExp
 
@@ -117,24 +117,24 @@ Replace a substring with a RegExp
 
 ### Logic
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L150">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L156">`cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b`</a>
 
 Apply transformer predicate return true anc return a Right value
 If any predicate return `true`, it will return initial value in Left Value
 
 ```js
-> const condExemple = cond ([
+> const condExample = cond ([
 .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
 .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
-. ])
+. ]);
 
-> condExemple ('hello')
+> condExample ('hello')
 Right ("HELLO")
 
-> condExemple ('HELLO!')
+> condExample ('HELLO!')
 Right ("hello!")
 
-> condExemple ('123!')
+> condExample ('123!')
 Left ("123!")
 ```
 
@@ -142,7 +142,7 @@ Left ("123!")
 
 Use [implementation created by David Chambers](https://gist.github.com/davidchambers/45aa0187a32fbac6912d4b3b4e8530c5)
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L193">`view :: Lens s a -> s -> a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L200">`view :: Lens s a -> s -> a`</a>
 
 Allow to get a value by a Lens
 
@@ -154,7 +154,7 @@ Allow to get a value by a Lens
 dc@davidchambers.me
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L204">`over :: Lens s a -> (a -> a) -> s -> s`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L212">`over :: Lens s a -> (a -> a) -> s -> s`</a>
 
 Allow to set a value by a Lens
 
@@ -168,7 +168,7 @@ Allow to set a value by a Lens
 
 ### Maybe
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L219">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L229">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
 
 Wrapping value in Maybe depending on predicate
 
@@ -185,13 +185,13 @@ Just (1)
 
 ### Either
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L243">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L254">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
 
 Convert to Either depending on predicate
 
 ```js
 > const toEven = toEither (x => x % 2 === 0)
-.                         (x => `${x} is not a even number`)
+.                         (x => `${x} is not a even number`);
 
 > toEven (1)
 Left ("1 is not a even number")
@@ -202,12 +202,12 @@ Right (2)
 
 ### Fluture
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L266">`flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L279">`flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c`</a>
 
 Apply a function that return a Fluture on each item of an array and return a Fluture
 
 ```js
-> const array = [1, 2, 3, 4, 5]
+> const array = [1, 2, 3, 4, 5];
 > const f1 = flMap (1) (x => resolve (1 + x)) (array);
 > const f2 = flMap (1) (x => reject ("error: " + x)) (array);
 
@@ -218,13 +218,13 @@ Apply a function that return a Fluture on each item of an array and return a Flu
 [rejection]: "error: 1"
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L288">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L303">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
 
 Convert to a Fluture depending on predicate
 
 ```js
 > const toOdd = toFluture (x => x % 2 !== 0)
-.                         (x => `${x} is not a odd number`)
+.                         (x => `${x} is not a odd number`);
 
 > fork (log ('rejection')) (log ('resolution')) (toOdd (2))
 [rejection]: "2 is not a odd number"
@@ -233,13 +233,13 @@ Convert to a Fluture depending on predicate
 [resolution]: 1
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L307">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L324">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
 
 Convert a Maybe to a Fluture
 
 ```js
-> const f1 = maybeToFluture ("not a number") (S.Just (1))
-> const f2 = maybeToFluture ("not a number") (S.Nothing)
+> const f1 = maybeToFluture ("not a number") (S.Just (1));
+> const f2 = maybeToFluture ("not a number") (S.Nothing);
 
 > fork (log ('rejection')) (log ('resolution')) (f1)
 [resolution]: 1
@@ -248,13 +248,13 @@ Convert a Maybe to a Fluture
 [rejection]: "not a number"
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L329">`eitherToFluture :: Either a b -> Fluture a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L347">`eitherToFluture :: Either a b -> Fluture a b`</a>
 
-Convert a Either to a Fluture
+Convert an Either to a Fluture
 
 ```js
-> const f1 = eitherToFluture (S.Right (1))
-> const f2 = eitherToFluture (S.Left ("error"))
+> const f1 = eitherToFluture (S.Right (1));
+> const f2 = eitherToFluture (S.Left ("error"));
 
 > fork (log ('rejection')) (log ('resolution')) (f1)
 [resolution]: 1
