@@ -68,8 +68,9 @@ Just (0)
 > indexOf ('yellow') (['red', 'green', 'blue'])
 Nothing
 
-> indexOf ({a:1}) ([{a:1}, {a:2}, {a:3}])
-Just (1)
+> indexOf ({name: "white", hex: "#fff"})
+.         ([{name: "white", hex: "#fff"}, {name: "black", hex: "#000"}])
+Just (0)
 ```
 
 #### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L82">`splitEach :: PositiveInteger -> Array a -> Array Array a`</a>
