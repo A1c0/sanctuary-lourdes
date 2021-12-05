@@ -2,4 +2,5 @@
 . "$(dirname "$0")/_/husky.sh"
 
 yarn sync-doc
+yarn test
 git add README.md

@@ -54,6 +54,9 @@ export const create = ({checkTypes}) => {
   //
   // > indexOf ('yellow') (['red', 'green', 'blue'])
   // Nothing
+  //
+  // > indexOf ({a:1}) ([{a:1}, {a:2}, {a:3}])
+  // Just (1)
   const _indexOf = elm => array => {
     const index = array.indexOf (elm);
     return index === -1 ? S.Nothing : S.Just (index);
