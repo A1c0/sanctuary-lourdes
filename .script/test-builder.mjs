@@ -17,7 +17,7 @@ const lib = S.pipe ([
   S.joinWith ('\n'),
   Sl.replace (/^exportFn.*?(\n.*?)*;$/gm) (''),
   Sl.replace (/\n{3,}/g) ('\n\n'),
-]) (path.resolve (APP_DIR, 'index.mjs'));
+]) (path.resolve (APP_DIR, 'main.mjs'));
 
 //    isFlutureTest :: Array String -> Boolean
 const isFlutureTest = S.pipe ([
@@ -153,7 +153,7 @@ const tests = S.pipe ([
   S.rights,
   S.map (toto),
   S.joinWith ('\n\n')
-]) (path.resolve (APP_DIR, 'index.mjs'));
+]) (path.resolve (APP_DIR, 'main.mjs'));
 
 const testScript = S.joinWith ('\n') ([
   readFile (path.resolve (APP_DIR, '.script/assets/prefix_import.txt')),

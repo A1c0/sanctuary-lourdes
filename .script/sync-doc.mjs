@@ -4,7 +4,7 @@ import {getApiDoc} from './common.mjs';
 import {APP_DIR, S, Sl, readFile, replace, writeFile} from './utils.mjs';
 
 const buildUrl = index =>
-  `https://github.com/A1c0/sanctuary-lourdes/blob/main/index.mjs#L${S.add(1)(
+  `https://github.com/A1c0/sanctuary-lourdes/blob/main/main.mjs#L${S.add(1)(
     index
   )}`;
 
@@ -21,7 +21,7 @@ const toCapitalize = s => `${s[0].toUpperCase()}${s.slice(1).toLowerCase()}`;
 
 const toTypeTitle = s => `### ${s}`;
 
-const apiDoc = getApiDoc (path.resolve (APP_DIR, 'index.mjs'));
+const apiDoc = getApiDoc (path.resolve (APP_DIR, 'main.mjs'));
 
 //    removeCommentMarkerAndJoin :: Array String -> String
 const removeCommentMarkerAndJoin = S.pipe ([

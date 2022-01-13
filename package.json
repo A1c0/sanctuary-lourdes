@@ -1,7 +1,8 @@
 {
   "name": "sanctuary-lourdes",
   "version": "0.3.1",
-  "main": "index.mjs",
+  "main": "index.js",
+  "module": "main.js",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
   "keywords": [
@@ -12,13 +13,15 @@
   "homepage": "https://github.com/A1c0/sanctuary-lourdes",
   "bugs": "https://github.com/A1c0/sanctuary-lourdes/issues",
   "files": [
-    "index.mjs"
+    "index.js",
+    "main.mjs"
   ],
   "scripts": {
     "test": ".script/doctest.sh",
     "sync-doc": "CHECK_TYPES_SANCTUAR=false node .script/sync-doc.mjs"
   },
   "dependencies": {
+    "esm": "^3.2.25",
     "fluture": "^14.0.0",
     "fluture-sanctuary-types": "^7.1.0",
     "sanctuary": "^3.1.0",

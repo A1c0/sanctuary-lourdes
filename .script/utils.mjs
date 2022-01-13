@@ -6,7 +6,7 @@ import {env as flutureEnv} from 'fluture-sanctuary-types';
 import sanctuary from 'sanctuary';
 import _$ from 'sanctuary-def';
 
-import {create} from '../index.mjs';
+import {create} from '../main.mjs';
 
 const CHECK_TYPES_SANCTUARY = process.env.CHECK_TYPES_SANCTUARY === 'true';
 
