@@ -4,6 +4,7 @@
   "main": "index.mjs",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "license": "MIT",
+  "type": "module",
   "keywords": [
     "sanctuary",
     "utils",
