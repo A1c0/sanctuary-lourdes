@@ -432,3 +432,6 @@ export const create = ({checkTypes}) => {
   exportFn.eitherToFluture = either => eitherToFluture (either);
   return exportFn;
 };
+
+const Sl = create({checkTypes: true});
+export default Sl;
