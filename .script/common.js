@@ -1,4 +1,4 @@
-import {S, Sl, readFile, replace} from './utils.mjs';
+import {S, Sl, readFile, replace} from './utils.js';
 
 const appendOnDef = acc => value => {
   const last = S.last (acc);

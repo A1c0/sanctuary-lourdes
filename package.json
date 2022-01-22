@@ -1,22 +1,25 @@
 {
   "name": "sanctuary-lourdes",
   "version": "0.3.1",
-  "main": "index.mjs",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
+  "main": "index.cjs",
   "license": "MIT",
   "keywords": [
     "sanctuary",
     "utils",
     "extra"
   ],
+  "type": "module",
   "homepage": "https://github.com/A1c0/sanctuary-lourdes",
   "bugs": "https://github.com/A1c0/sanctuary-lourdes/issues",
   "files": [
-    "index.mjs"
+    "index.cjs",
+    "index.js"
   ],
   "scripts": {
     "test": ".script/doctest.sh",
-    "sync-doc": "CHECK_TYPES_SANCTUAR=false node .script/sync-doc.mjs"
+    "build": "rollup -c rollup.config.js",
+    "sync-doc": "CHECK_TYPES_SANCTUARY=false node .script/sync-doc.js"
   },
   "dependencies": {
     "fluture": "^14.0.0",
@@ -29,6 +32,7 @@
     "@trivago/prettier-plugin-sort-imports": "^3.1.1",
     "husky": "^7.0.4",
     "oletus": "^3.2.0",
-    "prettier-sanctuary": "^0.9.9"
+    "prettier-sanctuary": "^0.9.9",
+    "rollup": "^2.66.0"
   }
 }

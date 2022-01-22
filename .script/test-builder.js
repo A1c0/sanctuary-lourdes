@@ -1,7 +1,7 @@
 import * as path from 'path';
 
-import {getApiDoc} from './common.mjs';
-import {APP_DIR, S, Sl, readFile, writeFile} from './utils.mjs';
+import {getApiDoc} from './common.js';
+import {APP_DIR, S, Sl, readFile, writeFile} from './utils.js';
 
 const lib = S.pipe ([
   readFile,
@@ -17,7 +17,7 @@ const lib = S.pipe ([
   S.joinWith ('\n'),
   Sl.replace (/^exportFn.*?(\n.*?)*;$/gm) (''),
   Sl.replace (/\n{3,}/g) ('\n\n'),
-]) (path.resolve (APP_DIR, 'index.mjs'));
+]) (path.resolve (APP_DIR, 'index.js'));
 
 //    isFlutureTest :: Array String -> Boolean
 const isFlutureTest = S.pipe ([
@@ -153,7 +153,7 @@ const tests = S.pipe ([
   S.rights,
   S.map (toto),
   S.joinWith ('\n\n')
-]) (path.resolve (APP_DIR, 'index.mjs'));
+]) (path.resolve (APP_DIR, 'index.js'));
 
 const testScript = S.joinWith ('\n') ([
   readFile (path.resolve (APP_DIR, '.script/assets/prefix_import.txt')),
@@ -162,4 +162,4 @@ const testScript = S.joinWith ('\n') ([
   tests,
 ]);
 
-writeFile (path.resolve (APP_DIR, 'sanctuary-lourde.test.mjs')) (testScript);
+writeFile (path.resolve (APP_DIR, 'sanctuary-lourde.test.js')) (testScript);
