@@ -1,6 +1,6 @@
 {
   "name": "sanctuary-lourdes",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "main": "index.cjs",
   "license": "MIT",
@@ -29,10 +29,10 @@
     "sanctuary-identity": "^2.1.0"
   },
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^3.1.1",
+    "@trivago/prettier-plugin-sort-imports": "^3.2.0",
     "husky": "^7.0.4",
     "oletus": "^3.2.0",
-    "prettier-sanctuary": "^0.9.9",
-    "rollup": "^2.66.0"
+    "prettier-sanctuary": "^0.10.0",
+    "rollup": "^2.67.0"
   }
 }

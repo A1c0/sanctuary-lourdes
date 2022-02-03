@@ -240,10 +240,10 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
-"@trivago/prettier-plugin-sort-imports@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/@trivago/prettier-plugin-sort-imports/-/prettier-plugin-sort-imports-3.1.1.tgz#101e34eadb252572ec32aea6d5487d93b90a0037"
-  integrity sha512-T9EJNEOugWts4WxdmpWeY+sp+2fUHhvGh9QSBCowEGJfcbnu355HQRqok5bKwejdieMaI1+uGZhuTNMZwjqOCQ==
+"@trivago/prettier-plugin-sort-imports@^3.2.0":
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/@trivago/prettier-plugin-sort-imports/-/prettier-plugin-sort-imports-3.2.0.tgz#7a32b6b3085c436eda0143b2710c440a4a56db90"
+  integrity sha512-DnwLe+z8t/dZX5xBbYZV1+C5STkyK/P6SSq3Nk6NXlJZsgvDZX2eN4ND7bMFgGV/NL/YChWzcNf6ziGba1ktQQ==
   dependencies:
     "@babel/core" "7.13.10"
     "@babel/generator" "7.13.9"
@@ -418,10 +418,10 @@ picocolors@^1.0.0:
   resolved "https://registry.yarnpkg.com/picocolors/-/picocolors-1.0.0.tgz#cb5bdc74ff3f51892236eaf79d68bc44564ab81c"
   integrity sha512-1fygroTLlHu66zi26VoTDv8yRgm0Fccecssto+MhsZ0D/DGW2sm8E8AjW7NU5VVTRt5GxbeZ5qBuJr+HyLYkjQ==
 
-prettier-sanctuary@^0.9.9:
-  version "0.9.9"
-  resolved "https://registry.yarnpkg.com/prettier-sanctuary/-/prettier-sanctuary-0.9.9.tgz#603bbf94161de9170b470c63f9d24910c9c4f11b"
-  integrity sha512-goBWxXGXJ6HIDAyk4gKRoRC46Nrly8AeENnyozv+dYyYz4QAW1sh3stRLtTEVB+eRbUMn6A3sotLp0Ud33aENg==
+prettier-sanctuary@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/prettier-sanctuary/-/prettier-sanctuary-0.10.0.tgz#055fa0f96d9e06b215c8421f161fcb361a01bd77"
+  integrity sha512-xFVTecsKdzwKKYcOYa32qDmih5owFsJcY70sZgrGHM2NgSoXkTRilJgLKsETO405/MbrTdkCHeuI8mWjBlcQJQ==
   dependencies:
     prettier "^2.4.1"
 
@@ -430,10 +430,10 @@ prettier@^2.4.1:
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.4.1.tgz#671e11c89c14a4cfc876ce564106c4a6726c9f5c"
   integrity sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==
 
-rollup@^2.66.0:
-  version "2.66.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.66.0.tgz#ee529ea15a20485d579039637fec3050bad03bbb"
-  integrity sha512-L6mKOkdyP8HK5kKJXaiWG7KZDumPJjuo1P+cfyHOJPNNTK3Moe7zCH5+fy7v8pVmHXtlxorzaBjvkBMB23s98g==
+rollup@^2.67.0:
+  version "2.67.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.67.0.tgz#496de7e641dbe39f681c5a82419cb5013917d406"
+  integrity sha512-W83AaERwvDiHwHEF/dfAfS3z1Be5wf7n+pO3ZAO5IQadCT2lBTr7WQ2MwZZe+nodbD+n3HtC4OCOAdsOPPcKZQ==
   optionalDependencies:
     fsevents "~2.3.2"
 

@@ -291,6 +291,53 @@ export const create = ({checkTypes}) => {
     S.extract (lens (y => Identity (fn (y))) (value));
   exportFn.over = over;
 
+  // lensProp :: String -> Lens s a
+  //
+  // Create a Lens for an object property
+  //
+  // > const user = {id: 1, email: 'dc@davidchambers.me'};
+  //
+  // > view (lensProp('email')) (user)
+  // 'dc@davidchambers.me'
+  //
+  // > over (lensProp('email')) (S.toUpper) (user)
+  // {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
+  const lensProp = prop =>
+    lens (S.prop (prop)) (p => obj => ({...obj, [prop]: p}));
+  exportFn.lensProp = lensProp;
+
+  const _deepSingleton = paths => value =>
+    S.pipe ([
+      S.reverse,
+      S.map (S.singleton),
+      S.flip (S.pipe) (value)
+    ]) (paths);
+
+  const _props = paths => value =>
+    S.pipe ([
+      S.map (S.prop),
+      S.flip (S.pipe) (value)
+    ]) (paths);
+
+  // lensProps :: Array String -> Lens s a
+  //
+  // Create a Lens for an object property path
+  //
+  // > const example = {a: {b: {c: 1}}};
+  //
+  // > view (lensProps (['a', 'b', 'c']))
+  // .      (example)
+  // 1
+  //
+  // > over (lensProps (['a', 'b', 'c']))
+  // .      (S.add (1))
+  // .      (example)
+  // {a: {b: {c: 2}}}
+  const lensProps = props =>
+    lens (_props (props))
+         (p => obj => ({...obj, ..._deepSingleton (props) (p)}));
+  exportFn.lensProps = lensProps;
+
   // #####################
   // #####   MAYBE   #####
   // #####################
@@ -433,5 +480,5 @@ export const create = ({checkTypes}) => {
   return exportFn;
 };
 
-const Sl = create({checkTypes: true});
+const Sl = create ({checkTypes: true});
 export default Sl;
