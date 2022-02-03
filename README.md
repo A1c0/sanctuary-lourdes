@@ -214,9 +214,20 @@ Allow to set a value by a Lens
 {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
 ```
 
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L294">`lensProp :: String -> Lens s a`</a>
+
+Create a Lens for an object property
+
+```js
+> const user = {id: 1, email: 'dc@davidchambers.me'};
+
+> over (lensProp('email')) (S.toUpper) (user)
+{id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
+```
+
 ### Maybe
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L298">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L309">`toMaybe :: (a -> Boolean) -> a -> Maybe a`</a>
 
 Wrapping value in Maybe depending on predicate
 
@@ -233,7 +244,7 @@ Just (1)
 
 ### Either
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L323">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L334">`toEither :: (a -> Boolean) -> (a -> b) -> a -> Either b a`</a>
 
 Convert to Either depending on predicate
 
@@ -250,7 +261,7 @@ Right (2)
 
 ### Fluture
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L348">`flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L359">`flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c`</a>
 
 Apply a function that return a Fluture on each item of an array and return a Fluture
 
@@ -266,7 +277,7 @@ Apply a function that return a Fluture on each item of an array and return a Flu
 [rejection]: "error: 1"
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L372">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L383">`toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a`</a>
 
 Convert to a Fluture depending on predicate
 
@@ -281,7 +292,7 @@ Convert to a Fluture depending on predicate
 [resolution]: 1
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L393">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L404">`maybeToFluture :: b -> Maybe a -> Fluture b a`</a>
 
 Convert a Maybe to a Fluture
 
@@ -296,7 +307,7 @@ Convert a Maybe to a Fluture
 [rejection]: "not a number"
 ```
 
-#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L416">`eitherToFluture :: Either a b -> Fluture a b`</a>
+#### <a href="https://github.com/A1c0/sanctuary-lourdes/blob/main/index.js#L427">`eitherToFluture :: Either a b -> Fluture a b`</a>
 
 Convert an Either to a Fluture
 
