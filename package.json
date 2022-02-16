@@ -1,6 +1,6 @@
 {
   "name": "sanctuary-lourdes",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "author": "Alexandre CONTASSOT <alexandrecontassot@hotmail.fr>",
   "main": "index.cjs",
   "license": "MIT",
