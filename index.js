@@ -100,6 +100,32 @@ export const create = ({checkTypes}) => {
                         (_splitEach);
   exportFn.splitEach = n => array => splitEach (n) (array);
 
+  // intersperse :: a -> Array a -> Array a
+  //
+  // Separate each item by an element.
+  //
+  // > intersperse ("b") (["a", "c"])
+  // ["a", "b", "c"]
+  //
+  // > intersperse ("b") (["a"])
+  // ["a"]
+  //
+  // > intersperse ("b") ([])
+  // []
+  const _intersperse = item =>
+    S.pipe ([
+      S.lift2 (S.lift2 (S.reduce (acc => value => [...acc, item, value])))
+              (S.take (1))
+              (S.tail),
+      S.fromMaybe ([]),
+    ]);
+  const intersperse = def ('intersperse')
+                          ({})
+                          ([a, $.Array (a), $.Array (a)])
+                          (_intersperse);
+
+  exportFn.intersperse = item => array => intersperse (item) (array);
+
   // #####################
   // #####   REGEX   #####
   // #####################
