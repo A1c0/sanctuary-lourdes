@@ -5,7 +5,7 @@ import $ from 'sanctuary-def';
 import Identity from 'sanctuary-identity';
 
 export const create = ({checkTypes}) => {
-  const exportFn = {};
+  const Sl = {};
 
   const S = sanctuary.create ({
     checkTypes: checkTypes,
@@ -16,6 +16,26 @@ export const create = ({checkTypes}) => {
     checkTypes: checkTypes,
     env: sanctuary.env,
   });
+
+  /**
+   * Some custom type
+   * @typedef {(number)} NonNegativeInteger
+   * @typedef {(number)} PositiveInteger
+   * @template A
+   * @template B
+   * @template C
+   * @template S
+   * @typedef {(A)} A
+   * @typedef {(B)} B
+   * @typedef {(C)} C
+   * @typedef {(S)} S
+   * @typedef {(*)} Lens
+   * @typedef {(*)} Lens
+   * @template T
+   * @template U
+   * @typedef {function (x :T): boolean} Predicate<T>
+   * @typedef {function (x :T): U} Fn<T,U>
+   */
 
   const a = $.TypeVariable ('a');
   const b = $.TypeVariable ('b');
@@ -39,11 +59,12 @@ export const create = ({checkTypes}) => {
   // Nothing
   const _nth = index => array =>
     index < array.length ? S.Just (array[index]) : S.Nothing;
-  const nth = def ('nth')
-                  ({})
-                  ([$.NonNegativeInteger, $.Array (a), $.Maybe (a)])
-                  (_nth);
-  exportFn.nth = index => array => nth (index) (array);
+
+  /** @type{function(index: NonNegativeInteger): function(array: Array<A>): Maybe<A>} */
+  Sl.nth = def ('nth')
+               ({})
+               ([$.NonNegativeInteger, $.Array (a), $.Maybe (a)])
+               (_nth);
 
   // indexOf :: a -> Array a -> Maybe NonNegativeInteger
   //
@@ -58,14 +79,14 @@ export const create = ({checkTypes}) => {
   // > indexOf ({name: "white", hex: "#fff"})
   // .         ([{name: "white", hex: "#fff"}, {name: "black", hex: "#000"}])
   // Just (0)
-  const _indexOf = elm => array =>
-    toMaybe (x => x !== -1) (array.findIndex (x => S.equals (elm) (x)));
+  const _indexOf = item => array =>
+    Sl.toMaybe (x => x !== -1) (array.findIndex (x => S.equals (item) (x)));
 
-  const indexOf = def ('indexOf')
-                      ({})
-                      ([a, $.Array (a), $.Maybe ($.NonNegativeInteger)])
-                      (_indexOf);
-  exportFn.indexOf = elm => array => indexOf (elm) (array);
+  /** @type{function(item: A): function(array: Array<A>): Maybe<A>} */
+  Sl.indexOf = def ('indexOf')
+                   ({})
+                   ([a, $.Array (a), $.Maybe ($.NonNegativeInteger)])
+                   (_indexOf);
 
   // _sliceArray :: Array a -> PositiveInteger -> PositiveInteger -> Array a
   const _sliceArray = array => n => index =>
@@ -94,15 +115,16 @@ export const create = ({checkTypes}) => {
       S.range (0),
       S.map (_sliceArray (array) (n))
     ]) (array);
-  const splitEach = def ('splitEach')
-                        ({})
-                        ([$.PositiveInteger, $.Array (a), $.Array ($.Array (a))])
-                        (_splitEach);
-  exportFn.splitEach = n => array => splitEach (n) (array);
+
+  /** @type{function(n: PositiveInteger): function(array: Array<A>): Array<Array<A>>} */
+  Sl.splitEach = def ('splitEach')
+                     ({})
+                     ([$.PositiveInteger, $.Array (a), $.Array ($.Array (a))])
+                     (_splitEach);
 
   // intersperse :: a -> Array a -> Array a
   //
-  // Separate each item by an element.
+  // Separate each item by an item.
   //
   // > intersperse ("b") (["a", "c"])
   // ["a", "b", "c"]
@@ -119,12 +141,12 @@ export const create = ({checkTypes}) => {
               (S.tail),
       S.fromMaybe ([]),
     ]);
-  const intersperse = def ('intersperse')
-                          ({})
-                          ([a, $.Array (a), $.Array (a)])
-                          (_intersperse);
 
-  exportFn.intersperse = item => array => intersperse (item) (array);
+  /** @type{function(item: A): function(array: Array<A>): Array<A>} */
+  Sl.intersperse = def ('intersperse')
+                       ({})
+                       ([a, $.Array (a), $.Array (a)])
+                       (_intersperse);
 
   // #####################
   // #####   REGEX   #####
@@ -151,14 +173,15 @@ export const create = ({checkTypes}) => {
     S.pipe ([
       S.match (regex),
       S.map (S.prop ('groups')),
-      S.chain (nth (0)),
-      S.join
+      S.chain (Sl.nth (0)),
+      S.join,
     ]) (string);
-  const extractString = def ('extractString')
-                            ({})
-                            ([$.RegExp, $.String, $.Maybe ($.String)])
-                            (_extractString);
-  exportFn.extractString = regex => string => extractString (regex) (string);
+
+  /** @type{function(regex: RegExp): function(str: string): Maybe<string>} */
+  Sl.extractString = def ('extractString')
+                         ({})
+                         ([$.RegExp, $.String, $.Maybe ($.String)])
+                         (_extractString);
 
   // replace :: Regex -> String -> String -> String
   //
@@ -169,14 +192,12 @@ export const create = ({checkTypes}) => {
   //
   // > replace (/a/gi) ('o') ('Aaaaahhhh')
   // "ooooohhhh"
-  const _replace = regExp => strReplace => str =>
-    str.replace (regExp, strReplace);
-  const replace = def ('replace')
-                      ({})
-                      ([$.RegExp, $.String, $.String, $.String])
-                      (_replace);
-  exportFn.replace = regExp => strReplace => str =>
-    replace (regExp) (strReplace) (str);
+  const _replace = regExp => substr => str => str.replace (regExp, substr);
+  /** @type{function(regex: RegExp): function(substr: string): function(str: string): string} */
+  Sl.replace = def ('replace')
+                   ({})
+                   ([$.RegExp, $.String, $.String, $.String])
+                   (_replace);
 
   // #####################
   // #####   LOGIC   #####
@@ -213,7 +234,8 @@ export const create = ({checkTypes}) => {
                       ({})
                       ([$.Array ($.Predicate (a)), a, $.Boolean])
                       (_allPass);
-  exportFn.allPass = predicates => value => allPass (predicates) (value);
+  /** @type{function(predicates: Array<Predicate<A>>): function(value: A): boolean} */
+  Sl.allPass = predicates => value => allPass (predicates) (value);
 
   // anyPass :: Array (a -> Boolean) -> a -> Boolean
   //
@@ -242,11 +264,11 @@ export const create = ({checkTypes}) => {
     }
     return false;
   };
-  const anyPass = def ('anyPass')
-                      ({})
-                      ([$.Array ($.Predicate (a)), a, $.Boolean])
-                      (_anyPass);
-  exportFn.anyPass = predicates => value => anyPass (predicates) (value);
+  /** @type{function(predicates: Array<Predicate<A>>): function(value: A): boolean} */
+  Sl.anyPass = def ('anyPass')
+                   ({})
+                   ([$.Array ($.Predicate (a)), a, $.Boolean])
+                   (_anyPass);
 
   // cond :: Array Pair (a -> Boolean) (a -> b) -> a -> Either a b
   //
@@ -276,11 +298,11 @@ export const create = ({checkTypes}) => {
     }
     return S.Left (value);
   };
-  const cond = def ('cond')
-                   ({})
-                   ([$.Array ($.Pair ($.Predicate (a)) ($.Fn (a) (b))), a, $.Either (a) (b)])
-                   (_cond);
-  exportFn.cond = conditionPairs => value => cond (conditionPairs) (value);
+  /** @type{function(regex: Array<Pair<Predicate<A>, Fn<A, B>>>): function(string: string): Maybe<string>} */
+  Sl.cond = def ('cond')
+                ({})
+                ([$.Array ($.Pair ($.Predicate (a)) ($.Fn (a) (b))), a, $.Either (a) (b)])
+                (_cond);
 
   // ####################
   // #####   LENS   #####
@@ -289,9 +311,9 @@ export const create = ({checkTypes}) => {
   // Use [implementation created by David Chambers](https://gist.github.com/davidchambers/45aa0187a32fbac6912d4b3b4e8530c5)
 
   // lens :: (s -> a) -> (a -> s -> s) -> Lens s a
-  const lens = getter => setter => f => s =>
+  /** @type{function(getter: Fn<S,A>): function(setter: Fn<A,Fn<S,S>>): Lens<S,A>} */
+  Sl.lens = getter => setter => f => s =>
     S.map (v => setter (v) (s)) (f (getter (s)));
-  exportFn.lens = lens;
   // view :: Lens s a -> s -> a
   //
   // Allow to get a value by a Lens
@@ -301,8 +323,8 @@ export const create = ({checkTypes}) => {
   //
   // > view (email) (user)
   // dc@davidchambers.me
-  const view = lens => value => lens (S.Left) (value).value;
-  exportFn.view = view;
+  /** @type{function(lens: Lens<S,A>): function(value: S): A} */
+  Sl.view = lens => value => lens (S.Left) (value).value;
 
   // over :: Lens s a -> (a -> a) -> s -> s
   //
@@ -313,9 +335,9 @@ export const create = ({checkTypes}) => {
   //
   // > over (email) (S.toUpper) (user)
   // {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
-  const over = lens => fn => value =>
-    S.extract (lens (y => Identity (fn (y))) (value));
-  exportFn.over = over;
+  /** @type{function(lens: Lens<S,A>): function(value: S): A} */
+  Sl.over = lens => fn => value => S.extract (lens (y => Identity (fn (y)))
+                                                   (value));
 
   // lensProp :: String -> Lens s a
   //
@@ -328,9 +350,9 @@ export const create = ({checkTypes}) => {
   //
   // > over (lensProp('email')) (S.toUpper) (user)
   // {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
-  const lensProp = prop =>
-    lens (S.prop (prop)) (p => obj => ({...obj, [prop]: p}));
-  exportFn.lensProp = lensProp;
+  /** @type{function(prop: string): Lens<S,A>} */
+  Sl.lensProp = prop =>
+    Sl.lens (S.prop (prop)) (p => obj => ({...obj, [prop]: p}));
 
   const _deepSingleton = paths => value =>
     S.pipe ([
@@ -359,10 +381,10 @@ export const create = ({checkTypes}) => {
   // .      (S.add (1))
   // .      (example)
   // {a: {b: {c: 2}}}
-  const lensProps = props =>
-    lens (_props (props))
-         (p => obj => ({...obj, ..._deepSingleton (props) (p)}));
-  exportFn.lensProps = lensProps;
+  /** @type{function(props: Array<string>): Lens<S,A>} */
+  Sl.lensProps = props =>
+    Sl.lens (_props (props))
+            (p => obj => ({...obj, ..._deepSingleton (props) (p)}));
 
   // #####################
   // #####   MAYBE   #####
@@ -383,11 +405,11 @@ export const create = ({checkTypes}) => {
   const _toMaybe = predicate => S.ifElse (predicate)
                                          (S.Just)
                                          (S.K (S.Nothing));
-  const toMaybe = def ('toMaybe')
-                      ({})
-                      ([$.Predicate (a), a, $.Maybe (a)])
-                      (_toMaybe);
-  exportFn.toMaybe = predicate => value => toMaybe (predicate) (value);
+  /** @type{function(predicate: Predicate<A>): function(value: A): Maybe<A>} */
+  Sl.toMaybe = def ('toMaybe')
+                   ({})
+                   ([$.Predicate (a), a, $.Maybe (a)])
+                   (_toMaybe);
 
   // ######################
   // #####   EITHER   #####
@@ -407,18 +429,17 @@ export const create = ({checkTypes}) => {
   // Right (2)
   const _toEither = predicate => leftConstructor => value =>
     predicate (value) ? S.Right (value) : S.Left (leftConstructor (value));
-  const toEither = def ('toEither')
-                       ({})
-                       ([$.Predicate (a), $.Fn (a) (b), a, $.Either (b) (a)])
-                       (_toEither);
-  exportFn.toEither = predicate => leftConstructor => value =>
-    toEither (predicate) (leftConstructor) (value);
+  /** @type{function(predicate: Predicate<A>): function(fn : {function(value: A): B}): function(value : A) :Either<B, A>} */
+  Sl.toEither = def ('toEither')
+                    ({})
+                    ([$.Predicate (a), $.Fn (a) (b), a, $.Either (b) (a)])
+                    (_toEither);
 
   // #######################
   // #####   FLUTURE   #####
   // #######################
 
-  // flMap :: PositiveNumber -> (a -> Fluture b c) -> Array a -> Fluture b Array c
+  // flMap :: PositiveInteger -> (a -> Fluture b c) -> Array a -> Fluture b Array c
   //
   // Apply a function that return a Fluture on each item of an array and return a Fluture
   //
@@ -436,11 +457,11 @@ export const create = ({checkTypes}) => {
       S.map (fn),
       parallel (parallelN)
     ]) (array);
-  const flMap = def ('flMap')
-                    ({})
-                    ([$.PositiveNumber, $.Fn (a) (FutureType (b) (c)), $.Array (a), FutureType (b) ($.Array (c))])
-                    (_flMap);
-  exportFn.flMap = parallelN => fn => array => flMap (parallelN) (fn) (array);
+  /** @type{function(parallelN: PositiveInteger): function(fn : {function(value: A): FutureType<B, C>}): function(value : Array<A>) : FutureType<B, Array<C>>} */
+  Sl.flMap = def ('flMap')
+                 ({})
+                 ([$.PositiveInteger, $.Fn (a) (FutureType (b) (c)), $.Array (a), FutureType (b) ($.Array (c))])
+                 (_flMap);
 
   // toFluture :: (a -> Boolean) -> (a -> b) -> a -> Fluture b a
   //
@@ -456,12 +477,11 @@ export const create = ({checkTypes}) => {
   // [resolution]: 1
   const _toFluture = predicate => leftConstructor => value =>
     predicate (value) ? resolve (value) : reject (leftConstructor (value));
-  const toFluture = def ('toFluture')
-                        ({})
-                        ([$.Predicate (a), $.Fn (a) (b), a, FutureType (b) (a)])
-                        (_toFluture);
-  exportFn.toFluture = predicate => leftConstructor => value =>
-    toFluture (predicate) (leftConstructor) (value);
+  /** @type{function(predicate: Predicate<A>): function(fn : {function(value: A): B}): function(value : A) : FutureType<B, A>} */
+  Sl.toFluture = def ('toFluture')
+                     ({})
+                     ([$.Predicate (a), $.Fn (a) (b), a, FutureType (b) (a)])
+                     (_toFluture);
 
   // maybeToFluture :: b -> Maybe a -> Fluture b a
   //
@@ -480,11 +500,11 @@ export const create = ({checkTypes}) => {
       S.maybeToEither (left),
       eitherToFluture
     ]) (value);
-  const maybeToFluture = def ('maybeToFluture')
-                             ({})
-                             ([b, $.Maybe (a), FutureType (b) (a)])
-                             (_maybeToFluture);
-  exportFn.maybeToFluture = left => value => maybeToFluture (left) (value);
+  /** @type{function(leftValue: B): function(value: Maybe<A>): FutureType<B, A>} */
+  Sl.maybeToFluture = def ('maybeToFluture')
+                          ({})
+                          ([b, $.Maybe (a), FutureType (b) (a)])
+                          (_maybeToFluture);
 
   // eitherToFluture :: Either a b -> Fluture a b
   //
@@ -498,12 +518,14 @@ export const create = ({checkTypes}) => {
   //
   // > fork (log ('rejection')) (log ('resolution')) (f2)
   // [rejection]: "error"
+  /** @type{function(either: Either<B, A>) : FutureType<B, A>} */
   const eitherToFluture = def ('eitherToFluture')
                               ({})
                               ([$.Either (b) (a), FutureType (b) (a)])
                               (S.either (reject) (resolve));
-  exportFn.eitherToFluture = either => eitherToFluture (either);
-  return exportFn;
+  Sl.eitherToFluture = either => eitherToFluture (either);
+
+  return Sl;
 };
 
 const Sl = create ({checkTypes: true});
