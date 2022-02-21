@@ -3,22 +3,6 @@ import * as path from 'path';
 import {getApiDoc} from './common.js';
 import {APP_DIR, S, Sl, readFile, writeFile} from './utils.js';
 
-const lib = S.pipe ([
-  readFile,
-  Sl.replace (/export const create = \({checkTypes}\) => {/)
-             ('const checkTypes = true;'),
-  S.lines,
-  lines =>
-    S.take (S.fromMaybe (0) (Sl.indexOf ('  return exportFn;') (lines)))
-           (lines),
-  S.fromMaybe ([]),
-  S.reject (S.test (/^ *\/\/.*$/)),
-  S.map (Sl.replace (/^ {2}(.*)$/) ('$1')),
-  S.joinWith ('\n'),
-  Sl.replace (/^exportFn.*?(\n.*?)*;$/gm) (''),
-  Sl.replace (/\n{3,}/g) ('\n\n'),
-]) (path.resolve (APP_DIR, 'index.js'));
-
 //    isFlutureTest :: Array String -> Boolean
 const isFlutureTest = S.pipe ([
   S.dropLast (1), // drop the result
@@ -156,10 +140,8 @@ const tests = S.pipe ([
 ]) (path.resolve (APP_DIR, 'index.js'));
 
 const testScript = S.joinWith ('\n') ([
-  readFile (path.resolve (APP_DIR, '.script/assets/prefix_import.txt')),
-  lib,
   readFile (path.resolve (APP_DIR, '.script/assets/prefix.txt')),
   tests,
 ]);
 
-writeFile (path.resolve (APP_DIR, 'sanctuary-lourde.test.js')) (testScript);
+writeFile (path.resolve (APP_DIR, 'sanctuary-lourdes.test.js')) (testScript);

@@ -3,5 +3,5 @@ sandbox
 node_modules
 *.log
 /test/
-/sanctuary-lourde.test.js
+/sanctuary-lourdes.test.js
 /index.cjs

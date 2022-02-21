@@ -1,11 +1,4 @@
-const dependencies = {
-  'sanctuary-show': 'sanctuaryShow',
-  'sanctuary-type-identifiers': 'sanctuaryTypeIdentifiers'
-};
-
 const pkg = require('./package.json');
-
-console.log(pkg.dependencies);
 
 export default {
   input: 'index.js',
