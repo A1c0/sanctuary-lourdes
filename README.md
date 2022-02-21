@@ -47,13 +47,13 @@ const Sl = create({checkTypes: CHECK_TYPES_SANCTUARY});
 Get the N th elements of array
 
 ```js
-> nth (0) ([])
+> Sl.nth (0) ([])
 Nothing
 
-> nth (1) ([1, 2, 3])
+> Sl.nth (1) ([1, 2, 3])
 Just (2)
 
-> nth (7) ([1, 2, 3])
+> Sl.nth (7) ([1, 2, 3])
 Nothing
 ```
 
@@ -62,14 +62,14 @@ Nothing
 Get the first index of an array which corresponding to an item
 
 ```js
-> indexOf ('red') (['red', 'green', 'blue'])
+> Sl.indexOf ('red') (['red', 'green', 'blue'])
 Just (0)
 
-> indexOf ('yellow') (['red', 'green', 'blue'])
+> Sl.indexOf ('yellow') (['red', 'green', 'blue'])
 Nothing
 
-> indexOf ({name: "white", hex: "#fff"})
-.         ([{name: "white", hex: "#fff"}, {name: "black", hex: "#000"}])
+> Sl.indexOf ({name: "white", hex: "#fff"})
+.            ([{name: "white", hex: "#fff"}, {name: "black", hex: "#000"}])
 Just (0)
 ```
 
@@ -78,10 +78,10 @@ Just (0)
 Split an array on sub-array of size N
 
 ```js
-> splitEach (3) ([1, 2, 3, 4, 5, 6, 7, 8, 9])
+> Sl.splitEach (3) ([1, 2, 3, 4, 5, 6, 7, 8, 9])
 [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
-> splitEach (2) ([1, 2, 3, 4, 5, 6, 7])
+> Sl.splitEach (2) ([1, 2, 3, 4, 5, 6, 7])
 [[1, 2], [3, 4], [5, 6], [7]]
 ```
 
@@ -90,13 +90,13 @@ Split an array on sub-array of size N
 Separate each item by an item.
 
 ```js
-> intersperse ("b") (["a", "c"])
+> Sl.intersperse ("b") (["a", "c"])
 ["a", "b", "c"]
 
-> intersperse ("b") (["a"])
+> Sl.intersperse ("b") (["a"])
 ["a"]
 
-> intersperse ("b") ([])
+> Sl.intersperse ("b") ([])
 []
 ```
 
@@ -107,7 +107,7 @@ Separate each item by an item.
 Get the first group match in a string
 
 ```js
-> const extractStringExample = extractString (/hello ([a-z]*)!/);
+> const extractStringExample = Sl.extractString (/hello ([a-z]*)!/);
 
 > extractStringExample ('hello john!')
 Just ("john")
@@ -127,10 +127,10 @@ Nothing
 Replace a substring with a RegExp
 
 ```js
-> replace (/bob/) ('john') ('hello bob')
+> Sl.replace (/bob/) ('john') ('hello bob')
 "hello john"
 
-> replace (/a/gi) ('o') ('Aaaaahhhh')
+> Sl.replace (/a/gi) ('o') ('Aaaaahhhh')
 "ooooohhhh"
 ```
 
@@ -143,7 +143,7 @@ Return `true` if all predicates return true, else return `false`
 ```js
 > const isEvenNumber = x => x%2 === 0;
 > const isPositiveNumber  = x => x > 0;
-> const isPositiveEvenNumber = allPass ([isEvenNumber, isPositiveNumber]);
+> const isPositiveEvenNumber = Sl.allPass ([isEvenNumber, isPositiveNumber]);
 
 > isPositiveEvenNumber (0)
 false
@@ -165,7 +165,7 @@ Return `true` if one of predicates return true, else return `false`
 ```js
 > const isSix = x => x === 6;
 > const isNegative  = x => x < 0;
-> const isNegativeOrSix = anyPass ([isNegative, isSix]);
+> const isNegativeOrSix = Sl.anyPass ([isNegative, isSix]);
 
 > isNegativeOrSix (0)
 false
@@ -186,7 +186,7 @@ Apply transformer predicate return true anc return a Right value
 If any predicate return `true`, it will return initial value in Left Value
 
 ```js
-> const condExample = cond ([
+> const condExample = Sl.cond ([
 .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
 .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
 . ]);
@@ -210,10 +210,10 @@ Use [implementation created by David Chambers](https://gist.github.com/davidcham
 Allow to get a value by a Lens
 
 ```js
-> const email = lens (user => user.email) (email => user => ({...user, email}));
+> const email = Sl.lens (user => user.email) (email => user => ({...user, email}));
 > const user = {id: 1, email: 'dc@davidchambers.me'};
 
-> view (email) (user)
+> Sl.view (email) (user)
 dc@davidchambers.me
 ```
 
@@ -222,10 +222,10 @@ dc@davidchambers.me
 Allow to set a value by a Lens
 
 ```js
-> const email = lens (user => user.email) (email => user => ({...user, email}));
+> const email = Sl.lens (user => user.email) (email => user => ({...user, email}));
 > const user = {id: 1, email: 'dc@davidchambers.me'};
 
-> over (email) (S.toUpper) (user)
+> Sl.over (email) (S.toUpper) (user)
 {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
 ```
 
@@ -236,10 +236,10 @@ Create a Lens for an object property
 ```js
 > const user = {id: 1, email: 'dc@davidchambers.me'};
 
-> view (lensProp('email')) (user)
+> Sl.view (Sl.lensProp('email')) (user)
 'dc@davidchambers.me'
 
-> over (lensProp('email')) (S.toUpper) (user)
+> Sl.over (Sl.lensProp('email')) (S.toUpper) (user)
 {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
 ```
 
@@ -250,13 +250,13 @@ Create a Lens for an object property path
 ```js
 > const example = {a: {b: {c: 1}}};
 
-> view (lensProps (['a', 'b', 'c']))
-.      (example)
+> Sl.view (Sl.lensProps (['a', 'b', 'c']))
+.         (example)
 1
 
-> over (lensProps (['a', 'b', 'c']))
-.      (S.add (1))
-.      (example)
+> Sl.over (Sl.lensProps (['a', 'b', 'c']))
+.         (S.add (1))
+.         (example)
 {a: {b: {c: 2}}}
 ```
 
@@ -267,13 +267,13 @@ Create a Lens for an object property path
 Wrapping value in Maybe depending on predicate
 
 ```js
-> toMaybe (x => !!x) (null)
+> Sl.toMaybe (x => !!x) (null)
 Nothing
 
-> toMaybe (x => !!x) (undefined)
+> Sl.toMaybe (x => !!x) (undefined)
 Nothing
 
-> toMaybe (x => !!x) (1)
+> Sl.toMaybe (x => !!x) (1)
 Just (1)
 ```
 
@@ -284,8 +284,8 @@ Just (1)
 Convert to Either depending on predicate
 
 ```js
-> const toEven = toEither (x => x % 2 === 0)
-.                         (x => `${x} is not a even number`);
+> const toEven = Sl.toEither (x => x % 2 === 0)
+.                            (x => `${x} is not a even number`);
 
 > toEven (1)
 Left ("1 is not a even number")
@@ -302,8 +302,8 @@ Apply a function that return a Fluture on each item of an array and return a Flu
 
 ```js
 > const array = [1, 2, 3, 4, 5];
-> const f1 = flMap (1) (x => resolve (1 + x)) (array);
-> const f2 = flMap (1) (x => reject ("error: " + x)) (array);
+> const f1 = Sl.flMap (1) (x => resolve (1 + x)) (array);
+> const f2 = Sl.flMap (1) (x => reject ("error: " + x)) (array);
 
 > fork (log ('rejection')) (log ('resolution')) (f1)
 [resolution]: [2, 3, 4, 5, 6]
@@ -317,8 +317,8 @@ Apply a function that return a Fluture on each item of an array and return a Flu
 Convert to a Fluture depending on predicate
 
 ```js
-> const toOdd = toFluture (x => x % 2 !== 0)
-.                         (x => `${x} is not a odd number`);
+> const toOdd = Sl.toFluture (x => x % 2 !== 0)
+.                            (x => `${x} is not a odd number`);
 
 > fork (log ('rejection')) (log ('resolution')) (toOdd (2))
 [rejection]: "2 is not a odd number"
@@ -332,8 +332,8 @@ Convert to a Fluture depending on predicate
 Convert a Maybe to a Fluture
 
 ```js
-> const f1 = maybeToFluture ("not a number") (S.Just (1));
-> const f2 = maybeToFluture ("not a number") (S.Nothing);
+> const f1 = Sl.maybeToFluture ("not a number") (S.Just (1));
+> const f2 = Sl.maybeToFluture ("not a number") (S.Nothing);
 
 > fork (log ('rejection')) (log ('resolution')) (f1)
 [resolution]: 1
@@ -347,8 +347,8 @@ Convert a Maybe to a Fluture
 Convert an Either to a Fluture
 
 ```js
-> const f1 = eitherToFluture (S.Right (1));
-> const f2 = eitherToFluture (S.Left ("error"));
+> const f1 = Sl.eitherToFluture (S.Right (1));
+> const f2 = Sl.eitherToFluture (S.Left ("error"));
 
 > fork (log ('rejection')) (log ('resolution')) (f1)
 [resolution]: 1

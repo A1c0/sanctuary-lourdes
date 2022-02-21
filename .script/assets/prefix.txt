@@ -1,3 +1,10 @@
+import {promise, reject, resolve} from 'fluture';
+import test from 'oletus';
+import S from 'sanctuary';
+import $ from 'sanctuary-def';
+
+import Sl from './index.js';
+
 const log = l => x => `[${l}]: ${S.show(x)}`;
 
 const isEither = S.is ($.Either ($.Unknown) ($.Unknown));

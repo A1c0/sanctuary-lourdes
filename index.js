@@ -49,13 +49,13 @@ export const create = ({checkTypes}) => {
   //
   // Get the N th elements of array
   //
-  // > nth (0) ([])
+  // > Sl.nth (0) ([])
   // Nothing
   //
-  // > nth (1) ([1, 2, 3])
+  // > Sl.nth (1) ([1, 2, 3])
   // Just (2)
   //
-  // > nth (7) ([1, 2, 3])
+  // > Sl.nth (7) ([1, 2, 3])
   // Nothing
   const _nth = index => array =>
     index < array.length ? S.Just (array[index]) : S.Nothing;
@@ -70,14 +70,14 @@ export const create = ({checkTypes}) => {
   //
   // Get the first index of an array which corresponding to an item
   //
-  // > indexOf ('red') (['red', 'green', 'blue'])
+  // > Sl.indexOf ('red') (['red', 'green', 'blue'])
   // Just (0)
   //
-  // > indexOf ('yellow') (['red', 'green', 'blue'])
+  // > Sl.indexOf ('yellow') (['red', 'green', 'blue'])
   // Nothing
   //
-  // > indexOf ({name: "white", hex: "#fff"})
-  // .         ([{name: "white", hex: "#fff"}, {name: "black", hex: "#000"}])
+  // > Sl.indexOf ({name: "white", hex: "#fff"})
+  // .            ([{name: "white", hex: "#fff"}, {name: "black", hex: "#000"}])
   // Just (0)
   const _indexOf = item => array =>
     Sl.toMaybe (x => x !== -1) (array.findIndex (x => S.equals (item) (x)));
@@ -104,10 +104,10 @@ export const create = ({checkTypes}) => {
   //
   // Split an array on sub-array of size N
   //
-  // > splitEach (3) ([1, 2, 3, 4, 5, 6, 7, 8, 9])
+  // > Sl.splitEach (3) ([1, 2, 3, 4, 5, 6, 7, 8, 9])
   // [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
   //
-  // > splitEach (2) ([1, 2, 3, 4, 5, 6, 7])
+  // > Sl.splitEach (2) ([1, 2, 3, 4, 5, 6, 7])
   // [[1, 2], [3, 4], [5, 6], [7]]
   const _splitEach = n => array =>
     S.pipe ([
@@ -126,13 +126,13 @@ export const create = ({checkTypes}) => {
   //
   // Separate each item by an item.
   //
-  // > intersperse ("b") (["a", "c"])
+  // > Sl.intersperse ("b") (["a", "c"])
   // ["a", "b", "c"]
   //
-  // > intersperse ("b") (["a"])
+  // > Sl.intersperse ("b") (["a"])
   // ["a"]
   //
-  // > intersperse ("b") ([])
+  // > Sl.intersperse ("b") ([])
   // []
   const _intersperse = item =>
     S.pipe ([
@@ -156,7 +156,7 @@ export const create = ({checkTypes}) => {
   //
   // Get the first group match in a string
   //
-  // > const extractStringExample = extractString (/hello ([a-z]*)!/);
+  // > const extractStringExample = Sl.extractString (/hello ([a-z]*)!/);
   //
   // > extractStringExample ('hello john!')
   // Just ("john")
@@ -187,10 +187,10 @@ export const create = ({checkTypes}) => {
   //
   // Replace a substring with a RegExp
   //
-  // > replace (/bob/) ('john') ('hello bob')
+  // > Sl.replace (/bob/) ('john') ('hello bob')
   // "hello john"
   //
-  // > replace (/a/gi) ('o') ('Aaaaahhhh')
+  // > Sl.replace (/a/gi) ('o') ('Aaaaahhhh')
   // "ooooohhhh"
   const _replace = regExp => substr => str => str.replace (regExp, substr);
   /** @type{function(regex: RegExp): function(substr: string): function(str: string): string} */
@@ -209,7 +209,7 @@ export const create = ({checkTypes}) => {
   //
   // > const isEvenNumber = x => x%2 === 0;
   // > const isPositiveNumber  = x => x > 0;
-  // > const isPositiveEvenNumber = allPass ([isEvenNumber, isPositiveNumber]);
+  // > const isPositiveEvenNumber = Sl.allPass ([isEvenNumber, isPositiveNumber]);
   //
   // > isPositiveEvenNumber (0)
   // false
@@ -243,7 +243,7 @@ export const create = ({checkTypes}) => {
   //
   // > const isSix = x => x === 6;
   // > const isNegative  = x => x < 0;
-  // > const isNegativeOrSix = anyPass ([isNegative, isSix]);
+  // > const isNegativeOrSix = Sl.anyPass ([isNegative, isSix]);
   //
   // > isNegativeOrSix (0)
   // false
@@ -275,7 +275,7 @@ export const create = ({checkTypes}) => {
   // Apply transformer predicate return true anc return a Right value
   // If any predicate return `true`, it will return initial value in Left Value
   //
-  // > const condExample = cond ([
+  // > const condExample = Sl.cond ([
   // .   S.Pair (S.test (/^[a-zA-Z]+$/)) (S.toUpper),
   // .   S.Pair (S.test (/[a-zA-Z]+/)) (S.toLower),
   // . ]);
@@ -318,10 +318,10 @@ export const create = ({checkTypes}) => {
   //
   // Allow to get a value by a Lens
   //
-  // > const email = lens (user => user.email) (email => user => ({...user, email}));
+  // > const email = Sl.lens (user => user.email) (email => user => ({...user, email}));
   // > const user = {id: 1, email: 'dc@davidchambers.me'};
   //
-  // > view (email) (user)
+  // > Sl.view (email) (user)
   // dc@davidchambers.me
   /** @type{function(lens: Lens<S,A>): function(value: S): A} */
   Sl.view = lens => value => lens (S.Left) (value).value;
@@ -330,10 +330,10 @@ export const create = ({checkTypes}) => {
   //
   // Allow to set a value by a Lens
   //
-  // > const email = lens (user => user.email) (email => user => ({...user, email}));
+  // > const email = Sl.lens (user => user.email) (email => user => ({...user, email}));
   // > const user = {id: 1, email: 'dc@davidchambers.me'};
   //
-  // > over (email) (S.toUpper) (user)
+  // > Sl.over (email) (S.toUpper) (user)
   // {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
   /** @type{function(lens: Lens<S,A>): function(value: S): A} */
   Sl.over = lens => fn => value => S.extract (lens (y => Identity (fn (y)))
@@ -345,10 +345,10 @@ export const create = ({checkTypes}) => {
   //
   // > const user = {id: 1, email: 'dc@davidchambers.me'};
   //
-  // > view (lensProp('email')) (user)
+  // > Sl.view (Sl.lensProp('email')) (user)
   // 'dc@davidchambers.me'
   //
-  // > over (lensProp('email')) (S.toUpper) (user)
+  // > Sl.over (Sl.lensProp('email')) (S.toUpper) (user)
   // {id: 1, email: 'DC@DAVIDCHAMBERS.ME'}
   /** @type{function(prop: string): Lens<S,A>} */
   Sl.lensProp = prop =>
@@ -373,13 +373,13 @@ export const create = ({checkTypes}) => {
   //
   // > const example = {a: {b: {c: 1}}};
   //
-  // > view (lensProps (['a', 'b', 'c']))
-  // .      (example)
+  // > Sl.view (Sl.lensProps (['a', 'b', 'c']))
+  // .         (example)
   // 1
   //
-  // > over (lensProps (['a', 'b', 'c']))
-  // .      (S.add (1))
-  // .      (example)
+  // > Sl.over (Sl.lensProps (['a', 'b', 'c']))
+  // .         (S.add (1))
+  // .         (example)
   // {a: {b: {c: 2}}}
   /** @type{function(props: Array<string>): Lens<S,A>} */
   Sl.lensProps = props =>
@@ -394,13 +394,13 @@ export const create = ({checkTypes}) => {
   //
   // Wrapping value in Maybe depending on predicate
   //
-  // > toMaybe (x => !!x) (null)
+  // > Sl.toMaybe (x => !!x) (null)
   // Nothing
   //
-  // > toMaybe (x => !!x) (undefined)
+  // > Sl.toMaybe (x => !!x) (undefined)
   // Nothing
   //
-  // > toMaybe (x => !!x) (1)
+  // > Sl.toMaybe (x => !!x) (1)
   // Just (1)
   const _toMaybe = predicate => S.ifElse (predicate)
                                          (S.Just)
@@ -419,8 +419,8 @@ export const create = ({checkTypes}) => {
   //
   // Convert to Either depending on predicate
   //
-  // > const toEven = toEither (x => x % 2 === 0)
-  // .                         (x => `${x} is not a even number`);
+  // > const toEven = Sl.toEither (x => x % 2 === 0)
+  // .                            (x => `${x} is not a even number`);
   //
   // > toEven (1)
   // Left ("1 is not a even number")
@@ -444,8 +444,8 @@ export const create = ({checkTypes}) => {
   // Apply a function that return a Fluture on each item of an array and return a Fluture
   //
   // > const array = [1, 2, 3, 4, 5];
-  // > const f1 = flMap (1) (x => resolve (1 + x)) (array);
-  // > const f2 = flMap (1) (x => reject ("error: " + x)) (array);
+  // > const f1 = Sl.flMap (1) (x => resolve (1 + x)) (array);
+  // > const f2 = Sl.flMap (1) (x => reject ("error: " + x)) (array);
   //
   // > fork (log ('rejection')) (log ('resolution')) (f1)
   // [resolution]: [2, 3, 4, 5, 6]
@@ -467,8 +467,8 @@ export const create = ({checkTypes}) => {
   //
   // Convert to a Fluture depending on predicate
   //
-  // > const toOdd = toFluture (x => x % 2 !== 0)
-  // .                         (x => `${x} is not a odd number`);
+  // > const toOdd = Sl.toFluture (x => x % 2 !== 0)
+  // .                            (x => `${x} is not a odd number`);
   //
   // > fork (log ('rejection')) (log ('resolution')) (toOdd (2))
   // [rejection]: "2 is not a odd number"
@@ -487,8 +487,8 @@ export const create = ({checkTypes}) => {
   //
   // Convert a Maybe to a Fluture
   //
-  // > const f1 = maybeToFluture ("not a number") (S.Just (1));
-  // > const f2 = maybeToFluture ("not a number") (S.Nothing);
+  // > const f1 = Sl.maybeToFluture ("not a number") (S.Just (1));
+  // > const f2 = Sl.maybeToFluture ("not a number") (S.Nothing);
   //
   // > fork (log ('rejection')) (log ('resolution')) (f1)
   // [resolution]: 1
@@ -510,8 +510,8 @@ export const create = ({checkTypes}) => {
   //
   // Convert an Either to a Fluture
   //
-  // > const f1 = eitherToFluture (S.Right (1));
-  // > const f2 = eitherToFluture (S.Left ("error"));
+  // > const f1 = Sl.eitherToFluture (S.Right (1));
+  // > const f2 = Sl.eitherToFluture (S.Left ("error"));
   //
   // > fork (log ('rejection')) (log ('resolution')) (f1)
   // [resolution]: 1
